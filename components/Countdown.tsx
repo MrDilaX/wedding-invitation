@@ -105,20 +105,7 @@ function FlipCard({ value, label }: { value: number; label: string }) {
         )}
 
         {/* FLIP — bottom half of NEW value flips up from folded */}
-        {flipping && (
-          <div style={{
-            position: "absolute", bottom: 0, left: 0, right: 0,
-            height: "50%",
-            zIndex: 3,
-            transformOrigin: "top center",
-            animation: "flipUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards",
-            overflow: "hidden",
-            background: "linear-gradient(180deg, #1C2B1E 0%, #243528 100%)",
-            display: "flex", alignItems: "flex-start", justifyContent: "center",
-          }}>
-            <span style={{ ...numStyle, marginTop: "-0.12em" }}>{display}</span>
-          </div>
-        )}
+        
 
         {/* Shine line in the middle */}
         <div style={{
