@@ -31,7 +31,7 @@ export default function GoogleMapSection() {
         {/* Address cards */}
         <div className="section-reveal" style={{ marginTop: "2rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1rem" }}>
           {([
-            { icon: "📍", label: "Address", value: "2000 Main St, St Helena, CA 94574" },
+            { icon: "📍", label: "Address", value: "Hikkaduwa" },
             { icon: "🚗", label: "Parking", value: "Free valet parking available on site" },
             { icon: "✈️", label: "Nearest Airport", value: "San Francisco International (SFO) — 75 min" },
           ] as { icon: string; label: string; value: string }[]).map((item) => (

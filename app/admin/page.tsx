@@ -62,7 +62,7 @@ export default function AdminPage() {
       {/* Header */}
       <div style={{ backgroundColor:"var(--bg-dark)", padding:"1.25rem 2rem", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
         <div>
-          <h1 style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:"1.6rem", fontStyle:"italic", color:"white", lineHeight:1 }}>Adam & Lorah</h1>
+          <h1 style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:"1.6rem", fontStyle:"italic", color:"white", lineHeight:1 }}>Chanuka & Gangunih</h1>
           <p style={{ fontSize:"0.6rem", letterSpacing:"0.2em", textTransform:"uppercase", color:"rgba(255,255,255,0.35)", marginTop:"0.2rem" }}>RSVP Dashboard</p>
         </div>
         <button onClick={()=>setAuthed(false)} style={{ background:"none", border:"1px solid rgba(255,255,255,0.2)", color:"rgba(255,255,255,0.5)", padding:"0.4rem 1rem", cursor:"pointer", fontSize:"0.65rem", letterSpacing:"0.1em" }}>Sign Out</button>
