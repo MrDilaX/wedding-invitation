@@ -14,7 +14,7 @@ export default function Comments() {
   const fmt = (ts: number) => new Date(ts).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
   const input: React.CSSProperties = { width:"100%", backgroundColor:"transparent", borderBottom:"1px solid var(--border)", outline:"none", padding:"0.75rem 0", color:"var(--primary)", fontFamily:"'Jost', sans-serif", fontSize:"0.85rem" };
   return (
-    <section style={{ id="comments", padding:"5rem 1.5rem", backgroundColor:"var(--bg)" }}>
+    <section id="comments" style={{  padding:"5rem 1.5rem", backgroundColor:"var(--bg)" }}>
       <div style={{ maxWidth:"48rem", margin:"0 auto" }}>
         <div className="section-reveal" style={{ textAlign:"center", marginBottom:"3rem" }}>
           <p style={{ fontFamily:"'Jost', sans-serif", fontSize:"0.65rem", letterSpacing:"0.4em", textTransform:"uppercase", color:"var(--accent)", marginBottom:"0.75rem" }}>Leave Your Wishes</p>
