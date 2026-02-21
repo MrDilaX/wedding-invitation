@@ -16,7 +16,7 @@ const config: Config = {
         cream: "#F8F3EC",
         "dark-green": "#1C2B1E",
         "sage": "#7C9A7E",
-        "warm-gold": "#C9A84C",
+        "warm-gold": "#FAE4EA",
         "blush": "#E8C4B0",
       },
       animation: {

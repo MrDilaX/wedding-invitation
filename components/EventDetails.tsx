@@ -74,22 +74,22 @@ function AddToCalendarButtons() {
     fontFamily: "'Jost', sans-serif", fontSize: "0.62rem",
     letterSpacing: "0.15em", textTransform: "uppercase",
     textDecoration: "none",
-    border: "1px solid rgba(201,168,76,0.35)",
-    color: "#C9A84C", backgroundColor: "transparent",
+    border: "1px solid rgba(125,46,70,0.75)",
+    color: "#FAE4EA", backgroundColor: "transparent",
     cursor: "pointer", transition: "all 0.25s", borderRadius: "100px",
   };
 
   return (
     <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", justifyContent: "center", marginTop: "3rem" }}>
       <a href={googleUrl} target="_blank" rel="noopener noreferrer" style={btn}
-        onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#C9A84C"; e.currentTarget.style.color = "#1C2B1E"; }}
-        onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = "#C9A84C"; }}>
+        onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FAE4EA"; e.currentTarget.style.color = "#1C2B1E"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = "#FAE4EA"; }}>
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 18H5V8h14v13zM7 10h5v5H7z"/></svg>
         Google Calendar
       </a>
       <a href={icsUrl} download="Chanuka-Gangunih-wedding.ics" style={btn}
-        onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#C9A84C"; e.currentTarget.style.color = "#1C2B1E"; }}
-        onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = "#C9A84C"; }}>
+        onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FAE4EA"; e.currentTarget.style.color = "#1C2B1E"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = "#FAE4EA"; }}>
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H7a2 2 0 0 0-2 2v16l7-3 7 3V5a2 2 0 0 0-2-2z"/></svg>
         Apple / Outlook
       </a>
@@ -104,14 +104,14 @@ export default function EventDetails() {
 
         {/* Header */}
         <div className="section-reveal" style={{ textAlign: "center", marginBottom: "3.5rem" }}>
-          <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.62rem", letterSpacing: "0.4em", textTransform: "uppercase", color: "#C9A84C", marginBottom: "0.75rem" }}>
+          <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.62rem", letterSpacing: "0.4em", textTransform: "uppercase", color: "#FAE4EA", marginBottom: "0.75rem" }}>
             Mark Your Calendar
           </p>
           <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.5rem, 6vw, 3.8rem)", fontWeight: 300, fontStyle: "italic", color: "#1C2B1E", marginBottom: "0.5rem" }}>
             Schedule of Events
           </h2>
           <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.78rem", color: "rgba(28,43,30,0.45)" }}>
-            August 31, 2026 · Grand Palace, Napa Valley
+            August 31, 2026 · Grand Palace, Hikkaduwa
           </p>
         </div>
 
@@ -125,7 +125,7 @@ export default function EventDetails() {
             top: "36px",
             bottom: "36px",
             width: "1px",
-            background: "linear-gradient(to bottom, transparent, rgba(201,168,76,0.25) 10%, rgba(201,168,76,0.25) 90%, transparent)",
+            background: "linear-gradient(to bottom, transparent, rgba(125,46,70,0.4) 10%, rgba(125,46,70,0.4) 90%, transparent)",
           }} />
 
           {/* Events */}
@@ -144,7 +144,7 @@ export default function EventDetails() {
                   border: "1px solid rgba(201,168,76,0.15)",
                   boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  color: "#C9A84C",
+                  color: "#FAE4EA",
                   position: "relative", zIndex: 1,
                 }}>
                   {event.icon}
@@ -155,7 +155,7 @@ export default function EventDetails() {
                   {/* Time badge */}
                   <div style={{
                     display: "inline-block",
-                    backgroundColor: "#C9A84C",
+                    backgroundColor: "#FAE4EA",
                     color: "#FAF6EE",
                     fontFamily: "'Jost', sans-serif",
                     fontSize: "0.72rem",

@@ -17,8 +17,8 @@ export default function Hero() {
           <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(1.5rem, 4vw, 2.5rem)", color: "var(--accent)", fontStyle: "italic", margin: "0.25rem 0" }}>&</p>
           <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(4rem, 12vw, 8rem)", fontWeight: 300, fontStyle: "italic", color: "var(--primary)", lineHeight: 1 }}>Gangunih</h1>
         </div>
-        <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.85rem", fontWeight: 500, color: "var(--primary)", letterSpacing: "0.05em", marginBottom: "0.25rem" }}>Grand Palace, Napa Valley</p>
-        <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.75rem", color: "var(--text-muted)", letterSpacing: "0.1em" }}>Aug 31, 2026</p>
+        <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "   1rem", fontWeight: 500, color: "var(--primary)", letterSpacing: "0.05em", marginBottom: "0.25rem" }}>Grand Palace, Hikkaduwa</p>
+        <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.95rem", color: "var(--text-muted)", letterSpacing: "0.1em" }}>Aug 31, 2026</p>
         <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(1.2rem, 3vw, 1.6rem)", fontStyle: "italic", color: "var(--accent)", marginTop: "1.5rem" }}>Save the date</p>
         <div style={{ marginTop: "3rem", display: "flex", flexDirection: "column", alignItems: "center" }}>
           <div style={{ width: "1px", height: "3rem", background: "linear-gradient(to bottom, var(--accent), transparent)", animation: "bounce 2s ease infinite" }} />

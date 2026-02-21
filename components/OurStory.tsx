@@ -65,7 +65,7 @@ export default function OurStory() {
             I knew from the very first moment. I just had to wait for him to catch up.
           </blockquote>
           <p style={{ marginTop: "1.5rem", fontFamily: "'Jost', sans-serif", fontSize: "0.7rem", letterSpacing: "0.3em", textTransform: "uppercase", color: "#C4738A" }}>
-            — Gangunih
+            — Ganguni
           </p>
         </div>
       </div>
