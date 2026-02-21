@@ -13,9 +13,9 @@ export default function Hero() {
         <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(0.9rem, 2vw, 1.1rem)", fontStyle: "italic", color: "var(--text)", marginBottom: "0.5rem" }}>Together with our loved friends and family</p>
         <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.7rem", letterSpacing: "0.2em", color: "var(--text-muted)", marginBottom: "2rem" }}>celebrating our wedding</p>
         <div style={{ marginBottom: "2.5rem" }}>
-          <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(4rem, 12vw, 8rem)", fontWeight: 300, fontStyle: "italic", color: "var(--primary)", lineHeight: 1 }}>Chanuka</h1>
+          <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(4rem, 12vw, 8rem)", fontWeight: 300, fontStyle: "italic", color: "var(--primary)", lineHeight: 1 }}>Chanaka</h1>
           <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(1.5rem, 4vw, 2.5rem)", color: "var(--accent)", fontStyle: "italic", margin: "0.25rem 0" }}>&</p>
-          <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(4rem, 12vw, 8rem)", fontWeight: 300, fontStyle: "italic", color: "var(--primary)", lineHeight: 1 }}>Gangunih</h1>
+          <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(4rem, 12vw, 8rem)", fontWeight: 300, fontStyle: "italic", color: "var(--primary)", lineHeight: 1 }}>Ganguni</h1>
         </div>
         <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "   1rem", fontWeight: 500, color: "var(--primary)", letterSpacing: "0.05em", marginBottom: "0.25rem" }}>Grand Palace, Hikkaduwa</p>
         <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.95rem", color: "var(--text-muted)", letterSpacing: "0.1em" }}>Aug 31, 2026</p>

@@ -71,7 +71,7 @@ const events = [
 ];
 
 function AddToCalendarButtons() {
-  const title = "Chanuka & Gangunih's Wedding";
+  const title = "Chanaka & Ganguni's Wedding";
   const location = "Grand Palace, Hikkaduwa";
   const details = "Join us as we celebrate our wedding day!";
   const startDate = "20260831T160000";
@@ -100,7 +100,7 @@ function AddToCalendarButtons() {
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 18H5V8h14v13zM7 10h5v5H7z"/></svg>
         Google Calendar
       </a>
-      <a href={icsUrl} download="Chanuka-Gangunih-wedding.ics" style={btn}
+      <a href={icsUrl} download="Chanaka-Ganguni-wedding.ics" style={btn}
         onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#C4738A"; e.currentTarget.style.color = "#1C2B1E"; }}
         onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = "#FAE4EA"; }}>
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H7a2 2 0 0 0-2 2v16l7-3 7 3V5a2 2 0 0 0-2-2z"/></svg>

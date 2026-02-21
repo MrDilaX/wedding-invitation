@@ -16,10 +16,10 @@ const jost = Jost({
 });
 
 export const metadata: Metadata = {
-  title: "Chanuka & Gangunih — Wedding Invitation",
+  title: "Chanaka & Ganguni — Wedding Invitation",
   description: "Join us as we celebrate our love and begin our forever together. August 31, 2026 · Hotel Grand Palace.",
   openGraph: {
-    title: "Chanuka & Gangunih — Wedding Invitation",
+    title: "Chanaka & Ganguni — Wedding Invitation",
     description: "Join us on August 31, 2026 in Hotel Grand Palace.",
     type: "website",
   },
