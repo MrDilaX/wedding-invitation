@@ -2,12 +2,12 @@
 import { useState, useEffect } from "react";
 
 const photos = [
-  { src:"/photos/photo1.jpg", caption:"Our Story" },
-  { src:"/photos/photo2.jpg", caption:"Lake Getaway" },
-  { src:"/photos/photo3.jpg", caption:"Hikkaduwa" },
-  { src:"/photos/photo4.jpg", caption:"Together" },
-  { src:"/photos/photo5.jpg", caption:"The Proposal" },
-  { src:"/photos/photo6.jpg", caption:"Engagement" },
+  { src:"/photos/photo1.jpg", caption:"C & G" },
+  { src:"/photos/photo2.jpg", caption:"C & G" },
+  { src:"/photos/photo3.jpg", caption:"C & G" },
+  { src:"/photos/photo4.jpg", caption:"C & G" },
+  { src:"/photos/photo5.jpg", caption:"C & G" },
+  { src:"/photos/photo6.jpg", caption:"C & G" },
 ];
 
 const spans = ["span 1","span 1","span 2","span 2","span 1","span 1"];
