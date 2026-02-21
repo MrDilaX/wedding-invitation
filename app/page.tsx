@@ -21,7 +21,6 @@ export default function Home() {
 
   const handleOpen = () => {
     setOpened(true);
-    // Small delay so envelope fade finishes before music starts
     setTimeout(() => setAutoPlay(true), 800);
   };
 
