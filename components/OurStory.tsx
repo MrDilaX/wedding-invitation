@@ -1,117 +1,70 @@
-export default function OurStory() {
-  const milestones = [
-    {
-      year: "2019",
-      title: "First Meeting",
-      description:
-        "A chance encounter at a mutual friend's art gallery opening in San Francisco. Adam spotted Lorah across the room and somehow found the courage to introduce himself.",
-    },
-    {
-      year: "2020",
-      title: "First Date",
-      description:
-        "A long Sunday brunch that turned into a sunset walk along the Embarcadero — and somehow ended with a spontaneous drive to Half Moon Bay.",
-    },
-    {
-      year: "2022",
-      title: "Moving In Together",
-      description:
-        "A tiny apartment in Hayes Valley became their first home. They survived IKEA, the pandemic, and a very demanding cat named Biscuit.",
-    },
-    {
-      year: "2024",
-      title: "The Proposal",
-      description:
-        "Adam proposed at the Napa winery where they had their first weekend getaway — down on one knee between the vines at golden hour.",
-    },
-  ];
+const milestones = [
+  { year: "2019", title: "First Meeting", description: "A chance encounter at a mutual friend's art gallery opening in San Francisco. Adam spotted Lorah across the room and somehow found the courage to introduce himself." },
+  { year: "2020", title: "First Date", description: "A long Sunday brunch that turned into a sunset walk along the Embarcadero — and somehow ended with a spontaneous drive to Half Moon Bay." },
+  { year: "2022", title: "Moving In Together", description: "A tiny apartment in Hayes Valley became their first home. They survived IKEA, the pandemic, and a very demanding cat named Biscuit." },
+  { year: "2024", title: "The Proposal", description: "Adam proposed at the Napa winery where they had their first weekend getaway — down on one knee between the vines at golden hour." },
+];
 
+export default function OurStory() {
   return (
-    <section id="story" className="py-28 px-6 bg-cream">
-      <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-20 section-reveal">
-          <p
-            className="text-xs tracking-[0.4em] uppercase text-warm-gold mb-4"
-            style={{ fontFamily: "'Jost', sans-serif" }}
-          >
+    <section id="story" style={{ padding: "7rem 1.5rem", backgroundColor: "#F8F3EC" }}>
+      <div style={{ maxWidth: "64rem", margin: "0 auto" }}>
+        <div className="section-reveal" style={{ textAlign: "center", marginBottom: "5rem" }}>
+          <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.7rem", letterSpacing: "0.4em", textTransform: "uppercase", color: "#C9A84C", marginBottom: "1rem" }}>
             How It All Began
           </p>
-          <h2
-            className="text-6xl md:text-7xl font-light italic text-dark-green"
-            style={{ fontFamily: "'Cormorant Garamond', serif" }}
-          >
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(3rem, 7vw, 5rem)", fontWeight: 300, fontStyle: "italic", color: "#1C2B1E" }}>
             Our Story
           </h2>
         </div>
 
-        {/* Timeline */}
-        <div className="relative">
+        <div style={{ position: "relative" }}>
           {/* Center line */}
-          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-warm-gold/0 via-warm-gold/30 to-warm-gold/0 hidden md:block" />
+          <div style={{ position: "absolute", left: "50%", top: 0, bottom: 0, width: "1px", background: "linear-gradient(to bottom, transparent, rgba(201,168,76,0.3), transparent)" }} className="hidden md:block" />
 
-          <div className="flex flex-col gap-16">
-            {milestones.map((milestone, i) => (
+          <div style={{ display: "flex", flexDirection: "column", gap: "4rem" }}>
+            {milestones.map((m, i) => (
               <div
-                key={milestone.year}
-                className={`flex items-center gap-8 md:gap-16 section-reveal ${
-                  i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                }`}
-                style={{ transitionDelay: `${i * 0.1}s` }}
+                key={m.year}
+                className="section-reveal"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "4rem",
+                  flexDirection: i % 2 === 0 ? "row" : "row-reverse",
+                }}
               >
-                {/* Content */}
-                <div className={`flex-1 ${i % 2 === 0 ? "md:text-right" : "md:text-left"}`}>
-                  <span
-                    className="text-xs tracking-[0.3em] uppercase text-warm-gold block mb-2"
-                    style={{ fontFamily: "'Jost', sans-serif" }}
-                  >
-                    {milestone.year}
+                <div style={{ flex: 1, textAlign: i % 2 === 0 ? "right" : "left" }}>
+                  <span style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.65rem", letterSpacing: "0.3em", textTransform: "uppercase", color: "#C9A84C", display: "block", marginBottom: "0.5rem" }}>
+                    {m.year}
                   </span>
-                  <h3
-                    className="text-3xl font-light italic text-dark-green mb-3"
-                    style={{ fontFamily: "'Cormorant Garamond', serif" }}
-                  >
-                    {milestone.title}
+                  <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.8rem", fontWeight: 300, fontStyle: "italic", color: "#1C2B1E", marginBottom: "0.75rem" }}>
+                    {m.title}
                   </h3>
-                  <p
-                    className="text-dark-green/60 leading-relaxed text-sm"
-                    style={{ fontFamily: "'Jost', sans-serif" }}
-                  >
-                    {milestone.description}
+                  <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.85rem", lineHeight: 1.8, color: "rgba(28,43,30,0.6)" }}>
+                    {m.description}
                   </p>
                 </div>
-
-                {/* Center dot */}
-                <div className="hidden md:flex flex-shrink-0 items-center justify-center w-12 h-12 rounded-full border border-warm-gold/40 bg-cream">
-                  <div className="w-3 h-3 rounded-full bg-warm-gold" />
+                <div className="hidden md:flex" style={{ flexShrink: 0, width: "3rem", height: "3rem", borderRadius: "50%", border: "1px solid rgba(201,168,76,0.4)", backgroundColor: "#F8F3EC", alignItems: "center", justifyContent: "center" }}>
+                  <div style={{ width: "0.75rem", height: "0.75rem", borderRadius: "50%", backgroundColor: "#C9A84C" }} />
                 </div>
-
-                {/* Empty space for alternating layout */}
-                <div className="flex-1 hidden md:block" />
+                <div style={{ flex: 1 }} className="hidden md:block" />
               </div>
             ))}
           </div>
         </div>
 
         {/* Quote */}
-        <div className="mt-28 text-center section-reveal">
-          <div className="ornament mb-8">
-            <span
-              className="text-4xl italic text-dark-green/30"
-              style={{ fontFamily: "'Cormorant Garamond', serif" }}
-            >
-              "
-            </span>
+        <div className="section-reveal" style={{ marginTop: "7rem", textAlign: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "2rem" }}>
+            <div style={{ flex: 1, height: "1px", background: "linear-gradient(to right, transparent, #C9A84C)" }} />
+            <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2rem", fontStyle: "italic", color: "rgba(28,43,30,0.3)" }}>"</span>
+            <div style={{ flex: 1, height: "1px", background: "linear-gradient(to left, transparent, #C9A84C)" }} />
           </div>
-          <blockquote
-            className="text-3xl md:text-4xl font-light italic text-dark-green max-w-2xl mx-auto leading-relaxed"
-            style={{ fontFamily: "'Cormorant Garamond', serif" }}
-          >
+          <blockquote style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(1.5rem, 3vw, 2.2rem)", fontWeight: 300, fontStyle: "italic", color: "#1C2B1E", maxWidth: "36rem", margin: "0 auto", lineHeight: 1.6 }}>
             I knew from the very first moment. I just had to wait for him to catch up.
           </blockquote>
-          <p
-            className="mt-6 text-sm tracking-widest uppercase text-warm-gold"
-            style={{ fontFamily: "'Jost', sans-serif" }}
-          >
+          <p style={{ marginTop: "1.5rem", fontFamily: "'Jost', sans-serif", fontSize: "0.7rem", letterSpacing: "0.3em", textTransform: "uppercase", color: "#C9A84C" }}>
             — Lorah
           </p>
         </div>

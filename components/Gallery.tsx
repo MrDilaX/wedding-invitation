@@ -2,103 +2,163 @@
 
 import { useState } from "react";
 
-// Placeholder gallery using gradient boxes with couple initials
 const photos = [
-  { id: 1, caption: "San Francisco, 2019", aspect: "aspect-square", col: "md:col-span-1" },
-  { id: 2, caption: "Lake Tahoe Getaway", aspect: "aspect-[3/4]", col: "md:col-span-1" },
-  { id: 3, caption: "Napa Valley, 2022", aspect: "aspect-[4/3]", col: "md:col-span-2" },
-  { id: 4, caption: "Half Moon Bay", aspect: "aspect-[4/3]", col: "md:col-span-2" },
-  { id: 5, caption: "The Proposal", aspect: "aspect-square", col: "md:col-span-1" },
-  { id: 6, caption: "Engagement Session", aspect: "aspect-[3/4]", col: "md:col-span-1" },
+  { id: 1, caption: "San Francisco, 2019", src: "/photos/photo1.jpg" },
+  { id: 2, caption: "Lake Tahoe Getaway", src: "/photos/photo2.jpg" },
+  { id: 3, caption: "Napa Valley, 2022", src: "/photos/photo3.jpg" },
+  { id: 4, caption: "Half Moon Bay", src: "/photos/photo4.jpg" },
+  { id: 5, caption: "The Proposal", src: "/photos/photo5.jpg" },
+  { id: 6, caption: "Engagement Session", src: "/photos/photo6.jpg" },
 ];
 
 const gradients = [
-  "from-sage/30 to-blush/30",
-  "from-blush/30 to-warm-gold/20",
-  "from-dark-green/10 to-sage/20",
-  "from-warm-gold/20 to-blush/20",
-  "from-sage/20 to-dark-green/10",
-  "from-blush/40 to-sage/20",
+  "linear-gradient(135deg, rgba(124,154,126,0.4), rgba(232,196,176,0.4))",
+  "linear-gradient(135deg, rgba(232,196,176,0.5), rgba(201,168,76,0.3))",
+  "linear-gradient(135deg, rgba(28,43,30,0.2), rgba(124,154,126,0.3))",
+  "linear-gradient(135deg, rgba(201,168,76,0.3), rgba(232,196,176,0.3))",
+  "linear-gradient(135deg, rgba(124,154,126,0.3), rgba(28,43,30,0.2))",
+  "linear-gradient(135deg, rgba(232,196,176,0.5), rgba(124,154,126,0.3))",
 ];
 
 export default function Gallery() {
+  const [lightbox, setLightbox] = useState<number | null>(null);
   const [hoveredId, setHoveredId] = useState<number | null>(null);
 
+  const openLightbox = (id: number) => setLightbox(id);
+  const closeLightbox = () => setLightbox(null);
+
+  const navigate = (dir: 1 | -1) => {
+    if (lightbox === null) return;
+    const idx = photos.findIndex((p) => p.id === lightbox);
+    const next = (idx + dir + photos.length) % photos.length;
+    setLightbox(photos[next].id);
+  };
+
+  const current = photos.find((p) => p.id === lightbox);
+
   return (
-    <section id="gallery" className="py-28 px-6 bg-dark-green">
-      <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-16 section-reveal">
-          <p
-            className="text-xs tracking-[0.4em] uppercase text-warm-gold mb-4"
-            style={{ fontFamily: "'Jost', sans-serif" }}
-          >
-            A Glimpse of Us
+    <>
+      <section id="gallery" style={{ padding: "5rem 1.5rem", backgroundColor: "#1C2B1E" }}>
+        <div style={{ maxWidth: "64rem", margin: "0 auto" }}>
+          <div className="section-reveal" style={{ textAlign: "center", marginBottom: "3rem" }}>
+            <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.65rem", letterSpacing: "0.4em", textTransform: "uppercase", color: "#C9A84C", marginBottom: "0.75rem" }}>
+              A Glimpse of Us
+            </p>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.5rem, 6vw, 4rem)", fontWeight: 300, fontStyle: "italic", color: "#F8F3EC" }}>
+              Gallery
+            </h2>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.5rem" }}>
+            {photos.map((photo, i) => (
+              <div
+                key={photo.id}
+                className="section-reveal"
+                onClick={() => openLightbox(photo.id)}
+                onMouseEnter={() => setHoveredId(photo.id)}
+                onMouseLeave={() => setHoveredId(null)}
+                style={{
+                  position: "relative", overflow: "hidden", cursor: "pointer",
+                  aspectRatio: i === 2 || i === 3 ? "16/9" : i % 3 === 1 ? "3/4" : "1/1",
+                  gridColumn: i === 2 || i === 3 ? "span 2" : "span 1",
+                  transitionDelay: `${i * 0.08}s`,
+                }}
+              >
+                <div style={{
+                  position: "absolute", inset: 0,
+                  background: gradients[i],
+                  backgroundColor: "#2A3D2C",
+                  transition: "transform 0.6s ease",
+                  transform: hoveredId === photo.id ? "scale(1.06)" : "scale(1)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                }}>
+                  {/* Placeholder — replace with <img> when you have real photos */}
+                  <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.5rem", fontStyle: "italic", color: "rgba(248,243,236,0.08)" }}>A & L</span>
+                </div>
+
+                {/* Hover overlay */}
+                <div style={{
+                  position: "absolute", inset: 0,
+                  backgroundColor: "rgba(28,43,30,0.6)",
+                  display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "0.5rem",
+                  opacity: hoveredId === photo.id ? 1 : 0,
+                  transition: "opacity 0.3s",
+                }}>
+                  <div style={{ width: "36px", height: "36px", borderRadius: "50%", border: "1px solid rgba(201,168,76,0.6)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" strokeWidth="2">
+                      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35M11 8v6M8 11h6"/>
+                    </svg>
+                  </div>
+                  <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.65rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(248,243,236,0.8)" }}>
+                    {photo.caption}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <p style={{ textAlign: "center", marginTop: "1.5rem", fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", color: "rgba(248,243,236,0.2)", fontSize: "0.85rem" }}>
+            * Add your photos to /public/photos/ folder
           </p>
-          <h2
-            className="text-6xl md:text-7xl font-light italic text-cream"
-            style={{ fontFamily: "'Cormorant Garamond', serif" }}
-          >
-            Gallery
-          </h2>
         </div>
+      </section>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-          {photos.map((photo, i) => (
-            <div
-              key={photo.id}
-              className={`relative overflow-hidden cursor-pointer group section-reveal ${photo.aspect}`}
-              style={{ transitionDelay: `${i * 0.08}s` }}
-              onMouseEnter={() => setHoveredId(photo.id)}
-              onMouseLeave={() => setHoveredId(null)}
-            >
-              {/* Placeholder image with gradient */}
-              <div
-                className={`absolute inset-0 bg-gradient-to-br ${gradients[i]} transition-transform duration-700 group-hover:scale-105`}
-                style={{ backgroundColor: "#2A3D2C" }}
-              >
-                {/* Decorative initials */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span
-                    className="text-4xl font-light italic text-cream/10"
-                    style={{ fontFamily: "'Cormorant Garamond', serif" }}
-                  >
-                    A & L
-                  </span>
-                </div>
-                {/* Botanical corner */}
-                <div className="absolute top-2 right-2 opacity-20">
-                  <svg viewBox="0 0 30 40" className="w-8 h-8" fill="none">
-                    <path d="M15,38 Q18,25 25,15 Q30,5 20,2" stroke="#C9A84C" strokeWidth="1" />
-                    <path d="M20,20 Q28,15 30,8" stroke="#7C9A7E" strokeWidth="1" />
-                    <path d="M18,28 Q10,22 5,18" stroke="#7C9A7E" strokeWidth="1" />
-                  </svg>
-                </div>
-              </div>
-
-              {/* Hover overlay */}
-              <div
-                className={`absolute inset-0 bg-dark-green/60 flex items-end p-4 transition-opacity duration-300 ${
-                  hoveredId === photo.id ? "opacity-100" : "opacity-0"
-                }`}
-              >
-                <p
-                  className="text-xs tracking-[0.2em] uppercase text-cream/80"
-                  style={{ fontFamily: "'Jost', sans-serif" }}
-                >
-                  {photo.caption}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <p
-          className="text-center mt-8 text-sm italic text-cream/30"
-          style={{ fontFamily: "'Cormorant Garamond', serif" }}
+      {/* Lightbox */}
+      {lightbox !== null && (
+        <div
+          onClick={closeLightbox}
+          style={{
+            position: "fixed", inset: 0, zIndex: 200,
+            backgroundColor: "rgba(0,0,0,0.92)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            animation: "fadeInPage 0.2s ease",
+          }}
         >
-          * Replace these placeholders with your actual photos in the /public folder
-        </p>
-      </div>
-    </section>
+          {/* Close */}
+          <button onClick={closeLightbox} style={{
+            position: "absolute", top: "1.5rem", right: "1.5rem",
+            background: "none", border: "1px solid rgba(201,168,76,0.4)",
+            color: "#C9A84C", fontSize: "1.2rem", cursor: "pointer",
+            width: "40px", height: "40px", borderRadius: "50%",
+            display: "flex", alignItems: "center", justifyContent: "center",
+          }}>✕</button>
+
+          {/* Prev */}
+          <button onClick={(e) => { e.stopPropagation(); navigate(-1); }} style={{
+            position: "absolute", left: "1rem",
+            background: "none", border: "1px solid rgba(201,168,76,0.3)",
+            color: "#C9A84C", cursor: "pointer",
+            width: "44px", height: "44px", borderRadius: "50%",
+            display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem",
+          }}>‹</button>
+
+          {/* Image */}
+          <div onClick={(e) => e.stopPropagation()} style={{ maxWidth: "80vw", maxHeight: "80vh", textAlign: "center" }}>
+            <div style={{
+              width: "min(600px, 80vw)", height: "min(420px, 60vh)",
+              background: gradients[photos.findIndex(p => p.id === lightbox)],
+              backgroundColor: "#2A3D2C",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              borderRadius: "4px",
+              border: "1px solid rgba(201,168,76,0.2)",
+            }}>
+              <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2rem", fontStyle: "italic", color: "rgba(248,243,236,0.15)" }}>A & L</span>
+            </div>
+            <p style={{ marginTop: "1rem", fontFamily: "'Jost', sans-serif", fontSize: "0.7rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(248,243,236,0.5)" }}>
+              {current?.caption}
+            </p>
+          </div>
+
+          {/* Next */}
+          <button onClick={(e) => { e.stopPropagation(); navigate(1); }} style={{
+            position: "absolute", right: "1rem",
+            background: "none", border: "1px solid rgba(201,168,76,0.3)",
+            color: "#C9A84C", cursor: "pointer",
+            width: "44px", height: "44px", borderRadius: "50%",
+            display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem",
+          }}>›</button>
+        </div>
+      )}
+    </>
   );
 }

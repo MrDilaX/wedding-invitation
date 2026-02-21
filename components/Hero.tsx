@@ -9,120 +9,79 @@ export default function Hero() {
     setMounted(true);
   }, []);
 
+  const fadeStyle = (delay: string, extraStyle?: React.CSSProperties): React.CSSProperties => ({
+    transition: "opacity 1s ease, transform 1s ease",
+    transitionDelay: delay,
+    opacity: mounted ? 1 : 0,
+    transform: mounted ? "translateY(0)" : "translateY(20px)",
+    ...extraStyle,
+  });
+
   return (
     <section
       id="top"
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
       style={{
+        position: "relative",
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        overflow: "hidden",
         background: "linear-gradient(160deg, #F8F3EC 0%, #EEE5D8 40%, #E8D9C8 100%)",
       }}
     >
-      {/* Decorative botanical SVG top */}
-      <div className="absolute top-0 left-0 w-64 opacity-20 pointer-events-none">
+      {/* Botanical corners */}
+      <div style={{ position: "absolute", top: 0, left: 0, width: "16rem", opacity: 0.15, pointerEvents: "none" }}>
         <BotanicalLeft />
       </div>
-      <div className="absolute top-0 right-0 w-64 opacity-20 pointer-events-none scale-x-[-1]">
+      <div style={{ position: "absolute", top: 0, right: 0, width: "16rem", opacity: 0.15, pointerEvents: "none", transform: "scaleX(-1)" }}>
         <BotanicalLeft />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 text-center px-6 flex flex-col items-center">
-        {/* Small label */}
-        <p
-          className={`text-xs tracking-[0.4em] uppercase text-warm-gold mb-8 transition-all duration-1000 ${
-            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}
-          style={{ fontFamily: "'Jost', sans-serif", transitionDelay: "0.2s" }}
-        >
+      <div style={{ position: "relative", zIndex: 10, textAlign: "center", padding: "0 1.5rem", display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <p style={{ ...fadeStyle("0.2s"), fontFamily: "'Jost', sans-serif", fontSize: "0.7rem", letterSpacing: "0.4em", textTransform: "uppercase", color: "#C9A84C", marginBottom: "2rem" }}>
           Together with their families
         </p>
 
-        {/* Names */}
-        <h1
-          className={`text-8xl md:text-[10rem] lg:text-[12rem] font-light leading-none text-dark-green transition-all duration-1000 ${
-            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            letterSpacing: "-0.02em",
-            transitionDelay: "0.4s",
-          }}
-        >
-          Chanuka
+        <h1 style={{ ...fadeStyle("0.4s"), fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(5rem, 15vw, 12rem)", fontWeight: 300, lineHeight: 1, color: "#1C2B1E", letterSpacing: "-0.02em", margin: 0 }}>
+          Adam
         </h1>
 
-        {/* Ampersand with flourish */}
-        <div
-          className={`flex items-center gap-6 my-2 w-full max-w-md transition-all duration-1000 ${
-            mounted ? "opacity-100 scale-100" : "opacity-0 scale-95"
-          }`}
-          style={{ transitionDelay: "0.6s" }}
-        >
-          <div className="flex-1 h-px bg-gradient-to-r from-transparent to-warm-gold" />
-          <span
-            className="text-5xl text-warm-gold italic"
-            style={{ fontFamily: "'Cormorant Garamond', serif" }}
-          >
-            &amp;
-          </span>
-          <div className="flex-1 h-px bg-gradient-to-l from-transparent to-warm-gold" />
+        <div style={{ ...fadeStyle("0.6s"), display: "flex", alignItems: "center", gap: "1.5rem", margin: "0.5rem 0", width: "100%", maxWidth: "28rem" }}>
+          <div style={{ flex: 1, height: "1px", background: "linear-gradient(to right, transparent, #C9A84C)" }} />
+          <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "3rem", color: "#C9A84C", fontStyle: "italic" }}>&amp;</span>
+          <div style={{ flex: 1, height: "1px", background: "linear-gradient(to left, transparent, #C9A84C)" }} />
         </div>
 
-        <h1
-          className={`text-8xl md:text-[10rem] lg:text-[12rem] font-light leading-none text-dark-green transition-all duration-1000 ${
-            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            letterSpacing: "-0.02em",
-            transitionDelay: "0.8s",
-          }}
-        >
-          Ganguni
+        <h1 style={{ ...fadeStyle("0.8s"), fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(5rem, 15vw, 12rem)", fontWeight: 300, lineHeight: 1, color: "#1C2B1E", letterSpacing: "-0.02em", margin: 0 }}>
+          Lorah
         </h1>
 
-        {/* Date */}
-        <p
-          className={`mt-10 text-lg tracking-[0.3em] uppercase text-dark-green/60 transition-all duration-1000 ${
-            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}
-          style={{ fontFamily: "'Jost', sans-serif", transitionDelay: "1s" }}
-        >
-          August 31, 2026
+        <p style={{ ...fadeStyle("1s"), fontFamily: "'Jost', sans-serif", fontSize: "1rem", letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(28,43,30,0.55)", marginTop: "2.5rem" }}>
+          September 14, 2025
         </p>
 
-        <p
-          className={`mt-2 text-sm tracking-widest uppercase text-sage transition-all duration-1000 ${
-            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}
-          style={{ fontFamily: "'Jost', sans-serif", transitionDelay: "1.1s" }}
-        >
-          The Grand Palace, Hikkaduwa
+        <p style={{ ...fadeStyle("1.1s"), fontFamily: "'Jost', sans-serif", fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#7C9A7E", marginTop: "0.5rem" }}>
+          Napa Valley, California
         </p>
 
         {/* Scroll cue */}
-        <div
-          className={`mt-20 flex flex-col items-center gap-2 transition-all duration-1000 ${
-            mounted ? "opacity-100" : "opacity-0"
-          }`}
-          style={{ transitionDelay: "1.4s" }}
-        >
-          <span
-            className="text-xs tracking-[0.3em] uppercase text-dark-green/40"
-            style={{ fontFamily: "'Jost', sans-serif" }}
-          >
+        <div style={{ ...fadeStyle("1.4s"), display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem", marginTop: "5rem" }}>
+          <span style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.65rem", letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(28,43,30,0.35)" }}>
             Scroll
           </span>
-          <div className="w-px h-12 bg-gradient-to-b from-dark-green/40 to-transparent animate-bounce" />
+          <div style={{ width: "1px", height: "3rem", background: "linear-gradient(to bottom, rgba(28,43,30,0.35), transparent)", animation: "bounce 2s infinite" }} />
         </div>
       </div>
 
       {/* Bottom botanical */}
-      <div className="absolute bottom-0 left-0 right-0 flex justify-between pointer-events-none">
-        <div className="w-48 opacity-15 rotate-180">
+      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, display: "flex", justifyContent: "space-between", pointerEvents: "none" }}>
+        <div style={{ width: "12rem", opacity: 0.12, transform: "rotate(180deg)" }}>
           <BotanicalLeft />
         </div>
-        <div className="w-48 opacity-15 rotate-180 scale-x-[-1]">
+        <div style={{ width: "12rem", opacity: 0.12, transform: "rotate(180deg) scaleX(-1)" }}>
           <BotanicalLeft />
         </div>
       </div>

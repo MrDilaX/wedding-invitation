@@ -21,27 +21,35 @@ export default function Nav() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? "bg-cream/90 backdrop-blur-md shadow-sm" : "bg-transparent"
-      }`}
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 50,
+        transition: "all 0.5s",
+        backgroundColor: scrolled ? "rgba(248,243,236,0.92)" : "transparent",
+        backdropFilter: scrolled ? "blur(12px)" : "none",
+        boxShadow: scrolled ? "0 1px 8px rgba(0,0,0,0.06)" : "none",
+      }}
     >
-      <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "1rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <a
           href="#top"
-          className="font-cormorant text-2xl italic text-dark-green tracking-wide"
-          style={{ fontFamily: "'Cormorant Garamond', serif" }}
+          style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.5rem", fontStyle: "italic", color: "#1C2B1E", letterSpacing: "0.05em", textDecoration: "none" }}
         >
           A & L
         </a>
 
         {/* Desktop nav */}
-        <ul className="hidden md:flex items-center gap-8">
+        <ul style={{ display: "flex", alignItems: "center", gap: "2rem", listStyle: "none", margin: 0, padding: 0 }} className="hidden md:flex">
           {navLinks.map((link) => (
             <li key={link.href}>
               <a
                 href={link.href}
-                className="text-sm tracking-widest uppercase text-dark-green/70 hover:text-warm-gold transition-colors duration-300"
-                style={{ fontFamily: "'Jost', sans-serif", letterSpacing: "0.15em" }}
+                style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.75rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(28,43,30,0.65)", textDecoration: "none", transition: "color 0.3s" }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#C9A84C")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(28,43,30,0.65)")}
               >
                 {link.label}
               </a>
@@ -51,26 +59,26 @@ export default function Nav() {
 
         {/* Mobile hamburger */}
         <button
-          className="md:hidden flex flex-col gap-1.5 p-2"
+          style={{ display: "flex", flexDirection: "column", gap: "6px", padding: "0.5rem", background: "none", border: "none", cursor: "pointer" }}
+          className="md:hidden"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
-          <span className={`block w-6 h-px bg-dark-green transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
-          <span className={`block w-6 h-px bg-dark-green transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
-          <span className={`block w-6 h-px bg-dark-green transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
+          <span style={{ display: "block", width: "24px", height: "1px", backgroundColor: "#1C2B1E", transition: "all 0.3s", transform: menuOpen ? "rotate(45deg) translateY(7px)" : "none" }} />
+          <span style={{ display: "block", width: "24px", height: "1px", backgroundColor: "#1C2B1E", transition: "all 0.3s", opacity: menuOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: "24px", height: "1px", backgroundColor: "#1C2B1E", transition: "all 0.3s", transform: menuOpen ? "rotate(-45deg) translateY(-7px)" : "none" }} />
         </button>
       </div>
 
       {/* Mobile menu */}
-      <div className={`md:hidden transition-all duration-300 ${menuOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"} overflow-hidden bg-cream/95 backdrop-blur-md`}>
-        <ul className="flex flex-col items-center gap-6 py-8">
+      <div style={{ overflow: "hidden", maxHeight: menuOpen ? "16rem" : "0", opacity: menuOpen ? 1 : 0, transition: "all 0.3s", backgroundColor: "rgba(248,243,236,0.97)" }} className="md:hidden">
+        <ul style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1.5rem", padding: "2rem 0", listStyle: "none", margin: 0 }}>
           {navLinks.map((link) => (
             <li key={link.href}>
               <a
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className="text-sm tracking-widest uppercase text-dark-green/70 hover:text-warm-gold transition-colors"
-                style={{ fontFamily: "'Jost', sans-serif", letterSpacing: "0.15em" }}
+                style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.75rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(28,43,30,0.65)", textDecoration: "none" }}
               >
                 {link.label}
               </a>
