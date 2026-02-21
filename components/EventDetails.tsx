@@ -3,7 +3,7 @@
 const events = [
   {
     time: "9:41 AM",
-    title: "Arrival pf the Bride & Groom",
+    title: "Arrival of the Bride & Groom",
     desc: "",
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -59,7 +59,7 @@ const events = [
   },
   {
     time: "4:05 PM",
-    title: "Departure of the Bride & Groom",
+    title: "Couple going away",
     desc: "",
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
