@@ -30,25 +30,15 @@ function FlipCard({ value, label }: { value: number; label: string }) {
     if (prevRef.current !== display) {
       setPrevDisplay(prevRef.current);
       setFlipping(true);
-      const t = setTimeout(() => setFlipping(false), 400);
+      const t = setTimeout(() => setFlipping(false), 350);
       prevRef.current = display;
       return () => clearTimeout(t);
     }
   }, [display]);
 
-  const cardStyle: React.CSSProperties = {
-    width: "70px",
-    height: "44px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#243528",
-    overflow: "hidden",
-  };
-
   const numStyle: React.CSSProperties = {
     fontFamily: "'Cormorant Garamond', serif",
-    fontSize: "clamp(2rem, 5vw, 3rem)",
+    fontSize: "clamp(2.2rem, 5vw, 3rem)",
     fontWeight: 300,
     color: "#F8F3EC",
     lineHeight: 1,
@@ -59,61 +49,52 @@ function FlipCard({ value, label }: { value: number; label: string }) {
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.75rem" }}>
       <div style={{
         position: "relative",
-        width: "70px",
-        height: "90px",
+        width: "72px", height: "90px",
         borderRadius: "6px",
         overflow: "hidden",
         boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
       }}>
-        {/* Top half — static, shows current value */}
+        {/* Top half — current value */}
         <div style={{
-          ...cardStyle,
-          position: "absolute", top: 0, left: 0, right: 0,
-          height: "50%",
-          alignItems: "flex-end",
-          borderBottom: "1px solid rgba(0,0,0,0.3)",
+          position: "absolute", top: 0, left: 0, right: 0, height: "50%",
           background: "linear-gradient(180deg, #2A3D2C 0%, #1F2E21 100%)",
+          display: "flex", alignItems: "flex-end", justifyContent: "center",
+          overflow: "hidden",
+          borderBottom: "1px solid rgba(0,0,0,0.4)",
         }}>
-          <span style={{ ...numStyle, marginBottom: "-0.12em" }}>{display}</span>
+          <span style={{ ...numStyle, marginBottom: "-0.08em" }}>{display}</span>
         </div>
 
-        {/* Bottom half — static, shows current value */}
+        {/* Bottom half — current value */}
         <div style={{
-          ...cardStyle,
-          position: "absolute", bottom: 0, left: 0, right: 0,
-          height: "50%",
-          alignItems: "flex-start",
+          position: "absolute", bottom: 0, left: 0, right: 0, height: "50%",
           background: "linear-gradient(180deg, #1C2B1E 0%, #243528 100%)",
+          display: "flex", alignItems: "flex-start", justifyContent: "center",
+          overflow: "hidden",
         }}>
-          <span style={{ ...numStyle, marginTop: "-0.12em" }}>{display}</span>
+          <span style={{ ...numStyle, marginTop: "-0.08em" }}>{display}</span>
         </div>
 
-        {/* FLIP — top half of OLD value folds down */}
+        {/* Flipping top — old value folds down from bottom edge */}
         {flipping && (
           <div style={{
-            position: "absolute", top: 0, left: 0, right: 0,
-            height: "50%",
+            position: "absolute", top: 0, left: 0, right: 0, height: "50%",
             zIndex: 3,
-            transformOrigin: "bottom center",
-            animation: "flipDown 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards",
-            overflow: "hidden",
+            transformOrigin: "50% 100%",
+            animation: "flipDown 0.4s ease-in forwards",
             background: "linear-gradient(180deg, #2A3D2C 0%, #1F2E21 100%)",
             display: "flex", alignItems: "flex-end", justifyContent: "center",
+            overflow: "hidden",
           }}>
-            <span style={{ ...numStyle, marginBottom: "-0.12em" }}>{prevDisplay}</span>
+            <span style={{ ...numStyle, marginBottom: "-0.08em" }}>{prevDisplay}</span>
           </div>
         )}
 
-        {/* FLIP — bottom half of NEW value flips up from folded */}
-        
-
-        {/* Shine line in the middle */}
+        {/* Center seam */}
         <div style={{
           position: "absolute", top: "50%", left: 0, right: 0,
-          height: "1px",
-          backgroundColor: "rgba(0,0,0,0.5)",
-          zIndex: 4,
-          pointerEvents: "none",
+          height: "1px", backgroundColor: "rgba(0,0,0,0.6)",
+          zIndex: 4, pointerEvents: "none",
         }} />
       </div>
 
@@ -126,12 +107,8 @@ function FlipCard({ value, label }: { value: number; label: string }) {
 
       <style>{`
         @keyframes flipDown {
-          0%   { transform: perspective(400px) rotateX(0deg); }
-          100% { transform: perspective(400px) rotateX(-90deg); opacity: 0.6; }
-        }
-        @keyframes flipUp {
-          0%   { transform: perspective(400px) rotateX(90deg); opacity: 0.6; }
-          100% { transform: perspective(400px) rotateX(0deg); }
+          0%   { transform: perspective(200px) rotateX(0deg); }
+          100% { transform: perspective(200px) rotateX(-90deg); opacity: 0.3; }
         }
       `}</style>
     </div>

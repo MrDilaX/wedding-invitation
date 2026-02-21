@@ -1,31 +1,37 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Vercel KV - install with: pnpm add @vercel/kv
-// This will work automatically when deployed to Vercel with KV database attached
-let kv: any = null;
-try {
-  kv = require("@vercel/kv");
-} catch {}
+// In-memory fallback for local dev (resets on server restart)
+const localStore: { id: string; name: string; message: string; timestamp: number }[] = [];
 
-export interface Comment {
-  id: string;
-  name: string;
-  message: string;
-  timestamp: number;
+async function getDb() {
+  const url = process.env.DATABASE_URL;
+  if (!url) return null;
+  try {
+    const { neon } = await import("@neondatabase/serverless");
+    const sql = neon(url);
+    // Create table if it doesn't exist
+    await sql`
+      CREATE TABLE IF NOT EXISTS wishes (
+        id TEXT PRIMARY KEY,
+        name TEXT NOT NULL,
+        message TEXT NOT NULL,
+        timestamp BIGINT NOT NULL
+      )
+    `;
+    return sql;
+  } catch {
+    return null;
+  }
 }
 
-// Fallback in-memory store for local dev
-const localComments: Comment[] = [];
-
 export async function GET() {
+  const sql = await getDb();
+  if (!sql) return NextResponse.json(localStore.slice(0, 50));
   try {
-    if (kv) {
-      const comments = await kv.lrange("comments", 0, 49);
-      return NextResponse.json(comments.map((c: string) => JSON.parse(c)));
-    }
-    return NextResponse.json(localComments);
+    const rows = await sql`SELECT * FROM wishes ORDER BY timestamp DESC LIMIT 50`;
+    return NextResponse.json(rows);
   } catch {
-    return NextResponse.json(localComments);
+    return NextResponse.json(localStore);
   }
 }
 
@@ -36,19 +42,23 @@ export async function POST(req: NextRequest) {
     if (!name?.trim() || !message?.trim()) {
       return NextResponse.json({ error: "Name and message required" }, { status: 400 });
     }
-    const comment: Comment = {
+    const comment = {
       id: Date.now().toString(),
-      name: name.trim().slice(0, 80),
-      message: message.trim().slice(0, 500),
+      name: String(name).trim().slice(0, 80),
+      message: String(message).trim().slice(0, 500),
       timestamp: Date.now(),
     };
-    if (kv) {
-      await kv.lpush("comments", JSON.stringify(comment));
+    const sql = await getDb();
+    if (sql) {
+      await sql`
+        INSERT INTO wishes (id, name, message, timestamp)
+        VALUES (${comment.id}, ${comment.name}, ${comment.message}, ${comment.timestamp})
+      `;
     } else {
-      localComments.unshift(comment);
+      localStore.unshift(comment);
     }
     return NextResponse.json(comment, { status: 201 });
-  } catch {
+  } catch (e) {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

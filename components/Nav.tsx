@@ -11,74 +11,55 @@ const navLinks = [
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 60);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <nav
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 50,
-        transition: "all 0.5s",
-        backgroundColor: scrolled ? "rgba(248,243,236,0.92)" : "transparent",
-        backdropFilter: scrolled ? "blur(12px)" : "none",
-        boxShadow: scrolled ? "0 1px 8px rgba(0,0,0,0.06)" : "none",
-      }}
-    >
-      <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "1rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <a
-          href="#top"
-          style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.5rem", fontStyle: "italic", color: "#1C2B1E", letterSpacing: "0.05em", textDecoration: "none" }}
-        >
+    <nav style={{
+      position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
+      transition: "background 0.4s, box-shadow 0.4s",
+      backgroundColor: scrolled ? "rgba(248,243,236,0.94)" : "transparent",
+      backdropFilter: scrolled ? "blur(12px)" : "none",
+      boxShadow: scrolled ? "0 1px 12px rgba(0,0,0,0.07)" : "none",
+    }}>
+      <div style={{
+        maxWidth: "72rem", margin: "0 auto",
+        padding: "1.1rem 2rem",
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+      }}>
+        {/* Logo left */}
+        <a href="#" style={{
+          fontFamily: "'Cormorant Garamond', serif",
+          fontSize: "1.4rem", fontStyle: "italic",
+          color: "#1C2B1E", textDecoration: "none",
+          letterSpacing: "0.04em",
+        }}>
           A & L
         </a>
 
-        {/* Desktop nav */}
-        <ul style={{ display: "flex", alignItems: "center", gap: "2rem", listStyle: "none", margin: 0, padding: 0 }} className="hidden md:flex">
+        {/* Links always on right, no hamburger */}
+        <ul style={{
+          display: "flex", alignItems: "center", gap: "2.5rem",
+          listStyle: "none", margin: 0, padding: 0,
+        }}>
           {navLinks.map((link) => (
             <li key={link.href}>
               <a
                 href={link.href}
-                style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.75rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(28,43,30,0.65)", textDecoration: "none", transition: "color 0.3s" }}
+                style={{
+                  fontFamily: "'Jost', sans-serif",
+                  fontSize: "0.68rem", letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  color: "rgba(28,43,30,0.6)",
+                  textDecoration: "none",
+                  transition: "color 0.25s",
+                }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = "#C9A84C")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(28,43,30,0.65)")}
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        {/* Mobile hamburger */}
-        <button
-          style={{ display: "flex", flexDirection: "column", gap: "6px", padding: "0.5rem", background: "none", border: "none", cursor: "pointer" }}
-          className="md:hidden"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
-        >
-          <span style={{ display: "block", width: "24px", height: "1px", backgroundColor: "#1C2B1E", transition: "all 0.3s", transform: menuOpen ? "rotate(45deg) translateY(7px)" : "none" }} />
-          <span style={{ display: "block", width: "24px", height: "1px", backgroundColor: "#1C2B1E", transition: "all 0.3s", opacity: menuOpen ? 0 : 1 }} />
-          <span style={{ display: "block", width: "24px", height: "1px", backgroundColor: "#1C2B1E", transition: "all 0.3s", transform: menuOpen ? "rotate(-45deg) translateY(-7px)" : "none" }} />
-        </button>
-      </div>
-
-      {/* Mobile menu */}
-      <div style={{ overflow: "hidden", maxHeight: menuOpen ? "16rem" : "0", opacity: menuOpen ? 1 : 0, transition: "all 0.3s", backgroundColor: "rgba(248,243,236,0.97)" }} className="md:hidden">
-        <ul style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1.5rem", padding: "2rem 0", listStyle: "none", margin: 0 }}>
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.75rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(28,43,30,0.65)", textDecoration: "none" }}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(28,43,30,0.6)")}
               >
                 {link.label}
               </a>

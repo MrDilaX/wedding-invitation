@@ -110,15 +110,7 @@ export default function EventDetails() {
         {/* Add to Calendar */}
         <div className="section-reveal" style={{ textAlign: "center" }}>
           <AddToCalendarButtons />
-        </div>
-
-        {/* Accommodation */}
-        <div className="section-reveal" style={{ marginTop: "2rem", padding: "1.75rem", border: "1px solid rgba(201,168,76,0.2)", backgroundColor: "rgba(248,243,236,0.5)", textAlign: "center" }}>
-          <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.6rem", letterSpacing: "0.3em", textTransform: "uppercase", color: "#C9A84C", marginBottom: "0.75rem" }}>Accommodation</p>
-          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.05rem", fontStyle: "italic", color: "rgba(28,43,30,0.75)", lineHeight: 1.7 }}>
-            A room block has been reserved at the Harvest Inn by Charlie Palmer, St. Helena. Use code <strong>ADAMLORAH26</strong> when booking.
-          </p>
-        </div>
+        </div>       
       </div>
     </section>
   );
