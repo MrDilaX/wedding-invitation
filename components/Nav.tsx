@@ -5,7 +5,7 @@ const navLinks = [
   { label: "Details", href: "#details" },
   { label: "Gallery", href: "#gallery" },
   { label: "Rsvp",    href: "#rsvp"},
-  { label: "Comments", href: "#omments"}
+  { label: "Comments", href: "#comments"}
 ];
 
 export default function Nav() {
