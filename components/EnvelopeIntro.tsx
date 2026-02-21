@@ -1,153 +1,183 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface Props {
   onOpen: () => void;
 }
 
 export default function EnvelopeIntro({ onOpen }: Props) {
-  const [opened, setOpened] = useState(false);
-  const [done, setDone] = useState(false);
+  const [phase, setPhase] = useState<"idle" | "opening" | "done">("idle");
+  const [mounted, setMounted] = useState(false);
 
-  const handleOpen = () => {
-    if (opened) return;
-    setOpened(true);
+  useEffect(() => {
+    setTimeout(() => setMounted(true), 200);
+  }, []);
+
+  const handleClick = () => {
+    if (phase !== "idle") return;
+    setPhase("opening");
     setTimeout(() => {
-      setDone(true);
+      setPhase("done");
       onOpen();
-    }, 1800);
+    }, 1400);
   };
 
-  if (done) return null;
+  if (phase === "done") return null;
 
   return (
     <div
+      onClick={handleClick}
       style={{
         position: "fixed", inset: 0, zIndex: 100,
-        backgroundColor: "#1C2B1E",
-        display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-        animation: opened ? "fadeOut 0.5s ease 1.6s forwards" : "none",
-        cursor: opened ? "default" : "pointer",
+        cursor: "pointer",
+        overflow: "hidden",
       }}
-      onClick={handleOpen}
     >
-      {/* Stars background */}
-      <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none" }}>
-        {Array.from({ length: 30 }).map((_, i) => (
-          <div key={i} style={{
-            position: "absolute",
-            width: `${1 + Math.random() * 2}px`,
-            height: `${1 + Math.random() * 2}px`,
-            borderRadius: "50%",
-            backgroundColor: "#C9A84C",
-            opacity: 0.2 + Math.random() * 0.5,
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }} />
-        ))}
-      </div>
-
-      {/* Envelope */}
-      <div style={{ position: "relative", width: "280px", height: "200px", perspective: "1000px" }}>
-        {/* Envelope body */}
+      {/* ── ENVELOPE BODY — fills entire screen ── */}
+      <div style={{
+        position: "absolute", inset: 0,
+        backgroundColor: "#EDE1CF",
+      }}>
+        {/* Left diagonal fold */}
         <div style={{
           position: "absolute", inset: 0,
-          backgroundColor: "#F8F3EC",
-          borderRadius: "4px",
-          boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
-          overflow: "hidden",
-        }}>
-          {/* Bottom triangle fold lines */}
-          <div style={{
-            position: "absolute", bottom: 0, left: 0, right: 0, height: "100%",
-            background: "linear-gradient(135deg, #EDE4D6 50%, transparent 50%)",
-          }} />
-          <div style={{
-            position: "absolute", bottom: 0, left: 0, right: 0, height: "100%",
-            background: "linear-gradient(225deg, #EDE4D6 50%, transparent 50%)",
-          }} />
-          {/* Center seal */}
-          <div style={{
-            position: "absolute", top: "50%", left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "40px", height: "40px",
-            borderRadius: "50%",
-            backgroundColor: "#C9A84C",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: "14px", color: "#F8F3EC",
-            fontFamily: "'Cormorant Garamond', serif",
-            fontStyle: "italic",
-            zIndex: 2,
-          }}>
-            A&L
-          </div>
-        </div>
-
-        {/* Envelope flap */}
+          background: "linear-gradient(to bottom right, #E0D3BE 50%, transparent 50%)",
+        }} />
+        {/* Right diagonal fold */}
         <div style={{
-          position: "absolute", top: 0, left: 0, right: 0,
-          height: "50%",
-          transformOrigin: "top center",
-          transformStyle: "preserve-3d",
-          animation: opened ? "envelopeOpen 0.8s ease 0.2s forwards" : "none",
-          zIndex: 3,
-        }}>
-          <div style={{
-            position: "absolute", inset: 0,
-            background: "linear-gradient(180deg, #EDE4D6 0%, #F8F3EC 100%)",
-            clipPath: "polygon(0 0, 50% 100%, 100% 0)",
-            borderRadius: "4px 4px 0 0",
-          }} />
-        </div>
+          position: "absolute", inset: 0,
+          background: "linear-gradient(to bottom left, #E0D3BE 50%, transparent 50%)",
+        }} />
+        {/* Bottom V fold */}
+        <div style={{
+          position: "absolute", bottom: 0, left: 0, right: 0,
+          height: "55%",
+          background: "linear-gradient(to top, #D4C5AE 0%, transparent 100%)",
+          clipPath: "polygon(0 100%, 50% 0%, 100% 100%)",
+        }} />
 
-        {/* Letter rising */}
-        {opened && (
+        {/* Center content */}
+        <div style={{
+          position: "absolute", inset: 0,
+          display: "flex", flexDirection: "column",
+          alignItems: "center", justifyContent: "center",
+          gap: "2rem",
+          opacity: mounted ? 1 : 0,
+          transform: mounted ? "translateY(0)" : "translateY(16px)",
+          transition: "all 1s ease",
+        }}>
+          {/* Wax seal */}
           <div style={{
-            position: "absolute", left: "10%", right: "10%",
-            bottom: "10px", height: "80%",
-            backgroundColor: "#F8F3EC",
-            borderRadius: "2px",
-            animation: "letterRise 0.8s ease 0.8s forwards",
-            opacity: 0,
-            zIndex: 1,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            flexDirection: "column", gap: "4px",
-            boxShadow: "0 -4px 20px rgba(0,0,0,0.15)",
+            width: "90px", height: "90px",
+            borderRadius: "50%",
+            backgroundColor: "#8B1C1C",
+            border: "3px solid rgba(255,220,180,0.25)",
+            display: "flex", flexDirection: "column",
+            alignItems: "center", justifyContent: "center",
+            boxShadow: "0 8px 30px rgba(0,0,0,0.25), inset 0 1px 3px rgba(255,255,255,0.1)",
           }}>
-            <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1rem", fontStyle: "italic", color: "#1C2B1E" }}>
-              Adam & Lorah
-            </span>
-            <div style={{ width: "40px", height: "1px", backgroundColor: "#C9A84C" }} />
-            <span style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.55rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(28,43,30,0.5)" }}>
-              Wedding Invitation
-            </span>
+            <span style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: "1.1rem", fontStyle: "italic",
+              color: "rgba(255,240,215,0.95)",
+              letterSpacing: "0.1em",
+            }}>A·L</span>
           </div>
-        )}
+
+          <div style={{ textAlign: "center" }}>
+            <p style={{
+              fontFamily: "'Jost', sans-serif",
+              fontSize: "0.6rem", letterSpacing: "0.45em",
+              textTransform: "uppercase",
+              color: "rgba(28,43,30,0.45)",
+              marginBottom: "0.75rem",
+            }}>
+              You are cordially invited
+            </p>
+            <h1 style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: "clamp(3rem, 8vw, 6rem)",
+              fontWeight: 300, fontStyle: "italic",
+              color: "#1C2B1E",
+              lineHeight: 1,
+              letterSpacing: "-0.01em",
+            }}>
+              Adam & Lorah
+            </h1>
+            <p style={{
+              fontFamily: "'Jost', sans-serif",
+              fontSize: "0.7rem", letterSpacing: "0.3em",
+              textTransform: "uppercase",
+              color: "rgba(28,43,30,0.45)",
+              marginTop: "0.75rem",
+            }}>
+              August 31, 2026 · Napa Valley
+            </p>
+          </div>
+
+          {/* Tap prompt */}
+          <div style={{
+            display: "flex", flexDirection: "column",
+            alignItems: "center", gap: "0.5rem",
+            marginTop: "1rem",
+          }}>
+            <p style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: "1rem", fontStyle: "italic",
+              color: "rgba(28,43,30,0.4)",
+            }}>
+              Tap to open
+            </p>
+            <div style={{
+              width: "1px", height: "2.5rem",
+              background: "linear-gradient(to bottom, rgba(201,168,76,0.7), transparent)",
+              animation: "bounce 1.8s ease infinite",
+            }} />
+          </div>
+        </div>
       </div>
 
-      {/* Click prompt */}
-      {!opened && (
-        <div style={{ marginTop: "3rem", textAlign: "center" }}>
-          <p style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontSize: "1.2rem", fontStyle: "italic",
-            color: "rgba(248,243,236,0.7)",
-            marginBottom: "0.5rem",
-          }}>
-            You are cordially invited
-          </p>
-          <p style={{
-            fontFamily: "'Jost', sans-serif",
-            fontSize: "0.65rem", letterSpacing: "0.3em",
-            textTransform: "uppercase",
-            color: "#C9A84C",
-            animation: "pulse 2s ease infinite",
-          }}>
-            Tap to open
-          </p>
-        </div>
-      )}
+      {/* ── TOP FLAP — animates open on click ── */}
+      <div style={{
+        position: "absolute",
+        top: 0, left: 0, right: 0,
+        height: "52%",
+        transformOrigin: "top center",
+        transform: phase === "opening"
+          ? "perspective(1200px) rotateX(-185deg)"
+          : "perspective(1200px) rotateX(0deg)",
+        transition: "transform 1s cubic-bezier(0.4, 0, 0.2, 1)",
+        zIndex: 5,
+        transformStyle: "preserve-3d",
+      }}>
+        {/* Front of flap */}
+        <div style={{
+          position: "absolute", inset: 0,
+          backgroundColor: "#E8DBC8",
+          clipPath: "polygon(0 0, 50% 100%, 100% 0)",
+          backfaceVisibility: "hidden",
+          boxShadow: "0 4px 24px rgba(0,0,0,0.08)",
+        }} />
+        {/* Back of flap */}
+        <div style={{
+          position: "absolute", inset: 0,
+          backgroundColor: "#D8C9B4",
+          clipPath: "polygon(0 0, 50% 100%, 100% 0)",
+          transform: "rotateX(180deg)",
+          backfaceVisibility: "hidden",
+        }} />
+      </div>
+
+      {/* ── CREAM FADE OVERLAY — transitions to main page ── */}
+      <div style={{
+        position: "absolute", inset: 0,
+        backgroundColor: "#F8F3EC",
+        opacity: phase === "opening" ? 1 : 0,
+        transition: "opacity 0.6s ease 0.7s",
+        zIndex: 10,
+        pointerEvents: "none",
+      }} />
     </div>
   );
 }

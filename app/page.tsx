@@ -2,13 +2,12 @@
 
 import { useEffect, useState } from "react";
 import EnvelopeIntro from "@/components/EnvelopeIntro";
-import LoadingSkeleton from "@/components/LoadingSkeleton";
 import Hero from "@/components/Hero";
 import Countdown from "@/components/Countdown";
 import OurStory from "@/components/OurStory";
 import EventDetails from "@/components/EventDetails";
-import Gallery from "@/components/Gallery";
 import GoogleMapSection from "@/components/GoogleMapSection";
+import Gallery from "@/components/Gallery";
 import RSVP from "@/components/RSVP";
 import Comments from "@/components/Comments";
 import Footer from "@/components/Footer";
@@ -17,39 +16,26 @@ import Nav from "@/components/Nav";
 import MusicPlayer from "@/components/MusicPlayer";
 
 export default function Home() {
-  const [ready, setReady] = useState(false);
-  const [envelopeOpened, setEnvelopeOpened] = useState(false);
+  const [opened, setOpened] = useState(false);
 
   useEffect(() => {
-    // Show skeleton briefly while fonts/assets load
-    const t = setTimeout(() => setReady(true), 600);
-    return () => clearTimeout(t);
-  }, []);
-
-  useEffect(() => {
-    if (!envelopeOpened) return;
+    if (!opened) return;
     const reveals = document.querySelectorAll(".section-reveal");
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add("visible");
-        });
-      },
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("visible"); }),
       { threshold: 0.1 }
     );
     reveals.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, [envelopeOpened]);
-
-  if (!ready) return <LoadingSkeleton />;
+  }, [opened]);
 
   return (
     <>
-      <EnvelopeIntro onOpen={() => setEnvelopeOpened(true)} />
+      <EnvelopeIntro onOpen={() => setOpened(true)} />
       <main style={{
         backgroundColor: "#F8F3EC",
-        opacity: envelopeOpened ? 1 : 0,
-        animation: envelopeOpened ? "fadeInPage 0.8s ease forwards" : "none",
+        opacity: opened ? 1 : 0,
+        transition: "opacity 0.5s ease",
       }}>
         <FloatingPetals />
         <Nav />
@@ -60,6 +46,7 @@ export default function Home() {
         <GoogleMapSection />
         <Gallery />
         <RSVP />
+        {/* Comments — clearly visible between RSVP and Footer */}
         <Comments />
         <Footer />
         <MusicPlayer />
