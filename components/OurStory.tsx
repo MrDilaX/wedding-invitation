@@ -1,8 +1,8 @@
 const milestones = [
-  { year: "2019", title: "First Meeting", description: "A chance encounter at a mutual friend's art gallery opening in San Francisco. Adam spotted Lorah across the room and somehow found the courage to introduce himself." },
+  { year: "2019", title: "First Meeting", description: "A chance encounter at a mutual friend's art gallery opening in San Francisco. Chanaka spotted Lorah across the room and somehow found the courage to introduce himself." },
   { year: "2020", title: "First Date", description: "A long Sunday brunch that turned into a sunset walk along the Embarcadero — and somehow ended with a spontaneous drive to Half Moon Bay." },
   { year: "2022", title: "Moving In Together", description: "A tiny apartment in Hayes Valley became their first home. They survived IKEA, the pandemic, and a very demanding cat named Biscuit." },
-  { year: "2024", title: "The Proposal", description: "Adam proposed at the Napa winery where they had their first weekend getaway — down on one knee between the vines at golden hour." },
+  { year: "2024", title: "The Proposal", description: "Chanaka proposed at the Napa winery where they had their first weekend getaway — down on one knee between the vines at golden hour." },
 ];
 
 export default function OurStory() {

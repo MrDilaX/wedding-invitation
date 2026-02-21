@@ -2,10 +2,8 @@
 import { useEffect, useState } from "react";
 
 const navLinks = [
-  { label: "Our Story", href: "#story" },
   { label: "Details", href: "#details" },
   { label: "Gallery", href: "#gallery" },
-  { label: "RSVP", href: "#rsvp" },
 ];
 
 export default function Nav() {
