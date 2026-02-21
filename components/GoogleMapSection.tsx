@@ -1,6 +1,7 @@
 export default function GoogleMapSection() {
   // Replace the src with your actual venue coordinates
-  const mapSrc = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.9344691704723!2d80.1203400750171!3d6.139505927506475!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae177539eb6d4a1%3A0x90cfbbcc38b8ceb!2sHotel%20Grand%20Palace!5e0!3m2!1sen!2slk!4v1771663354854!5m2!1sen!2slk`;
+  const mapSrc = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3115.123456!2d-122.4787!3d38.5025!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085a9b5e5b5e5b5%3A0x1234567890abcdef!2sBeringer%20Vineyards!5e0!3m2!1sen!2sus!4v1234567890`;
+
   return (
     <section style={{ padding: "5rem 1.5rem", backgroundColor: "#FDF0F3" }}>
       <div style={{ maxWidth: "64rem", margin: "0 auto" }}>
@@ -14,6 +15,7 @@ export default function GoogleMapSection() {
         </div>
 
         <div className="section-reveal" style={{ position: "relative", borderRadius: "4px", overflow: "hidden", boxShadow: "0 20px 60px rgba(125,46,70,0.15)" }}>
+          {/* Gold border frame */}
           <div style={{ position: "absolute", inset: 0, border: "1px solid rgba(196,115,138,0.3)", zIndex: 1, pointerEvents: "none", borderRadius: "4px" }} />
           <iframe
             src={mapSrc}
@@ -24,6 +26,27 @@ export default function GoogleMapSection() {
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           />
+        </div>
+
+        {/* Address cards */}
+        <div className="section-reveal" style={{ marginTop: "2rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1rem" }}>
+          {([
+            { icon: "📍", label: "Address", value: "2000 Main St, St Helena, CA 94574" },
+            { icon: "🚗", label: "Parking", value: "Free valet parking available on site" },
+            { icon: "✈️", label: "Nearest Airport", value: "San Francisco International (SFO) — 75 min" },
+          ] as { icon: string; label: string; value: string }[]).map((item) => (
+            <div key={item.label} style={{
+              padding: "1.25rem",
+              backgroundColor: "rgba(248,243,236,0.8)",
+              border: "1px solid rgba(196,115,138,0.2)",
+              borderRadius: "2px",
+              textAlign: "center",
+            }}>
+              <div style={{ fontSize: "1.2rem", marginBottom: "0.5rem" }}>{item.icon}</div>
+              <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.6rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#C4738A", marginBottom: "0.4rem" }}>{item.label}</p>
+              <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.8rem", color: "rgba(125,46,70,0.7)", lineHeight: 1.5 }}>{item.value}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
