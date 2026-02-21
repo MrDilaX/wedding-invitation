@@ -163,7 +163,7 @@ export default function EnvelopeIntro({ onOpen }: Props) {
           </div>
         </div>
 
-        {/* === TOP FLAP === */}
+        {/* === TOP FLAP — full rectangle rotates, triangle clipped inside === */}
         <div style={{
           position: "absolute",
           top: 0, left: 0, right: 0,
@@ -171,33 +171,33 @@ export default function EnvelopeIntro({ onOpen }: Props) {
           zIndex: 5,
           transformOrigin: "top center",
           transform: phase === "opening"
-            ? "perspective(1400px) rotateX(-185deg)"
+            ? "perspective(1400px) rotateX(-182deg)"
             : "perspective(1400px) rotateX(0deg)",
-          transition: "transform 1s cubic-bezier(0.4, 0, 0.2, 1)",
+          transition: "transform 0.85s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
           transformStyle: "preserve-3d",
+          overflow: "hidden",
+          borderRadius: "3px 3px 0 0",
         }}>
-          {/* Flap front */}
+          {/* Flap front face */}
           <div style={{
             position: "absolute", inset: 0,
-            clipPath: "polygon(0 0, 50% 100%, 100% 0)",
             backfaceVisibility: "hidden",
-            background: "linear-gradient(180deg, #EDE0C8 0%, #E0CDB0 60%, #D8C4A0 100%)",
-            borderRadius: "3px 3px 0 0",
-          }} />
-          {/* Flap crease shadow */}
+            background: "linear-gradient(175deg, #EDE0C8 0%, #E2D0B0 50%, #D8C4A0 100%)",
+            clipPath: "polygon(0 0, 50% 100%, 100% 0)",
+          }}>
+            {/* subtle center crease */}
+            <div style={{
+              position: "absolute", inset: 0,
+              background: "linear-gradient(to bottom, transparent 70%, rgba(0,0,0,0.04) 100%)",
+            }} />
+          </div>
+          {/* Flap back face */}
           <div style={{
             position: "absolute", inset: 0,
-            clipPath: "polygon(0 0, 50% 100%, 100% 0)",
-            backfaceVisibility: "hidden",
-            background: "linear-gradient(160deg, transparent 40%, rgba(0,0,0,0.06) 50%, transparent 60%)",
-          }} />
-          {/* Flap back */}
-          <div style={{
-            position: "absolute", inset: 0,
-            clipPath: "polygon(0 0, 50% 100%, 100% 0)",
             transform: "rotateX(180deg)",
             backfaceVisibility: "hidden",
-            background: "linear-gradient(180deg, #D8C9B0 0%, #C8B89A 100%)",
+            background: "linear-gradient(180deg, #C8B89A 0%, #BCA882 100%)",
+            clipPath: "polygon(0 0, 50% 100%, 100% 0)",
           }} />
         </div>
 
