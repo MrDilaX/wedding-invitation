@@ -16,7 +16,7 @@ export default function Nav() {
   return (
     <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, transition: "background 0.4s, box-shadow 0.4s", backgroundColor: scrolled ? "color-mix(in srgb, var(--bg) 95%, transparent)" : "transparent", backdropFilter: scrolled ? "blur(12px)" : "none", boxShadow: scrolled ? "0 1px 12px rgba(0,0,0,0.08)" : "none" }}>
       <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "1.1rem 2rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <a href="#" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.4rem", fontStyle: "italic", color: "var(--primary)", textDecoration: "none", letterSpacing: "0.04em" }}>A & L</a>
+        <a href="#" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.4rem", fontStyle: "italic", color: "var(--primary)", textDecoration: "none", letterSpacing: "0.04em" }}>C & G</a>
         <ul style={{ display: "flex", alignItems: "center", gap: "2.5rem", listStyle: "none", margin: 0, padding: 0 }}>
           {navLinks.map((link) => (
             <li key={link.href}>

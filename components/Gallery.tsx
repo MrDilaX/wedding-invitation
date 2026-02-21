@@ -73,7 +73,7 @@ export default function Gallery() {
                   display: "flex", alignItems: "center", justifyContent: "center",
                 }}>
                   {/* Placeholder — replace with <img> when you have real photos */}
-                  <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.5rem", fontStyle: "italic", color: "rgba(248,243,236,0.08)" }}>A & L</span>
+                  <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.5rem", fontStyle: "italic", color: "rgba(248,243,236,0.08)" }}>C & G</span>
                 </div>
 
                 {/* Hover overlay */}
@@ -142,7 +142,7 @@ export default function Gallery() {
               borderRadius: "4px",
               border: "1px solid rgba(196,115,138,0.2)",
             }}>
-              <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2rem", fontStyle: "italic", color: "rgba(248,243,236,0.15)" }}>A & L</span>
+              <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2rem", fontStyle: "italic", color: "rgba(248,243,236,0.15)" }}>C & G</span>
             </div>
             <p style={{ marginTop: "1rem", fontFamily: "'Jost', sans-serif", fontSize: "0.7rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(248,243,236,0.5)" }}>
               {current?.caption}
