@@ -1,0 +1,13 @@
+:root {
+  /* ── Change these to instantly retheme the entire site ── */
+
+  --color-primary:     #7D2E46;   /* headings, names, dark text */
+  --color-accent:      #C4738A;   /* buttons, highlights, tags */
+  --color-bg:          #FDF0F3;   /* main background */
+  --color-bg-alt:      #FAE4EA;   /* section alternate bg */
+  --color-bg-dark:     #7D2E46;   /* footer, dark sections */
+  --color-text:        rgba(125,46,70,0.7);   /* body text */
+  --color-text-muted:  rgba(125,46,70,0.4);   /* captions, labels */
+  --color-border:      rgba(196,115,138,0.2); /* card borders */
+  --color-envelope-bg: #3A0D1C;   /* envelope screen background */
+}
