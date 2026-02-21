@@ -3,12 +3,12 @@
 import { useState } from "react";
 
 const photos = [
-  { id: 1, caption: "C & G " , src: "/photos/photo1.webp" },
-  { id: 2, caption: "C & G " , src: "/photos/photo2.webp" },
-  { id: 3, caption: "C & G " , src: "/photos/photo3.webp" },
-  { id: 4, caption: "C & G " , src: "/photos/photo4.webp" },
-  { id: 5, caption: "C & G " , src: "/photos/photo5.webp" },
-  { id: 6, caption: "C & G " , src: "/photos/photo6.webp" },
+  { id: 1, caption: "C & G " , src: "/photos/photo1.jpg" },
+  { id: 2, caption: "C & G " , src: "/photos/photo2.jpg" },
+  { id: 3, caption: "C & G " , src: "/photos/photo3.jpg" },
+  { id: 4, caption: "C & G " , src: "/photos/photo4.jpg" },
+  { id: 5, caption: "C & G " , src: "/photos/photo5.jpg" },
+  { id: 6, caption: "C & G " , src: "/photos/photo6.jpg" },
 ];
 
 const gradients = [
