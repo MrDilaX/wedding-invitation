@@ -48,7 +48,7 @@ export default function RSVP() {
             <div style={{ display:"flex", gap:"1.5rem", marginTop:"0.5rem" }}>
               {[{v:"yes",l:"Joyfully Accepts"},{v:"no",l:"Regretfully Declines"}].map(({v,l})=>(
                 <label key={v} style={{ display:"flex", alignItems:"center", gap:"0.5rem", cursor:"pointer", fontFamily:"'Jost',sans-serif", fontSize:"0.82rem", color:form.attending===v?"var(--accent)":"var(--text)" }}>
-                  <input type="button" name="attending" value={v} required checked={form.attending===v} onChange={set} style={{ accentColor:"var(--accent)" }} />{l}
+                  <input type="radio" name="attending" value={v} required checked={form.attending===v} onChange={set} style={{ accentColor:"var(--accent)" }} />{l}
                 </label>
               ))}
             </div>
