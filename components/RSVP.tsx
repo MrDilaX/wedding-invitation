@@ -36,10 +36,10 @@ export default function RSVP() {
   const inputStyle: React.CSSProperties = {
     width: "100%",
     backgroundColor: "transparent",
-    borderBottom: "1px solid rgba(28,43,30,0.2)",
+    borderBottom: "1px solid rgba(125,46,70,0.2)",
     outline: "none",
     padding: "0.75rem 0",
-    color: "#1C2B1E",
+    color: "#7D2E46",
     fontFamily: "'Jost', sans-serif",
     fontSize: "0.85rem",
     transition: "border-color 0.3s",
@@ -50,7 +50,7 @@ export default function RSVP() {
     fontSize: "0.65rem",
     letterSpacing: "0.2em",
     textTransform: "uppercase" as const,
-    color: "rgba(28,43,30,0.5)",
+    color: "rgba(125,46,70,0.5)",
     display: "block",
     marginBottom: "0.5rem",
   };
@@ -58,25 +58,25 @@ export default function RSVP() {
   return (
     <section
       id="rsvp"
-      style={{ padding: "7rem 1.5rem", background: "linear-gradient(160deg, #F8F3EC 0%, #EDE4D6 100%)" }}
+      style={{ padding: "7rem 1.5rem", background: "linear-gradient(160deg, #FDF0F3 0%, #EDE4D6 100%)" }}
     >
       <div style={{ maxWidth: "40rem", margin: "0 auto" }}>
         <div className="section-reveal" style={{ textAlign: "center", marginBottom: "4rem" }}>
-          <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.7rem", letterSpacing: "0.4em", textTransform: "uppercase", color: "#C9A84C", marginBottom: "1rem" }}>
+          <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.7rem", letterSpacing: "0.4em", textTransform: "uppercase", color: "#C4738A", marginBottom: "1rem" }}>
             Kindly Reply By August 1, 2025
           </p>
-          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(3rem, 7vw, 5rem)", fontWeight: 300, fontStyle: "italic", color: "#1C2B1E" }}>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(3rem, 7vw, 5rem)", fontWeight: 300, fontStyle: "italic", color: "#7D2E46" }}>
             RSVP
           </h2>
         </div>
 
         {submitted ? (
           <div className="section-reveal visible" style={{ textAlign: "center", padding: "4rem 0" }}>
-            <div style={{ fontSize: "3rem", marginBottom: "1.5rem", color: "#C9A84C" }}>✦</div>
-            <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2.5rem", fontWeight: 300, fontStyle: "italic", color: "#1C2B1E", marginBottom: "1rem" }}>
+            <div style={{ fontSize: "3rem", marginBottom: "1.5rem", color: "#C4738A" }}>✦</div>
+            <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2.5rem", fontWeight: 300, fontStyle: "italic", color: "#7D2E46", marginBottom: "1rem" }}>
               Thank You, {form.name.split(" ")[0]}!
             </h3>
-            <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.85rem", color: "rgba(28,43,30,0.6)", lineHeight: 1.8 }}>
+            <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.85rem", color: "rgba(125,46,70,0.6)", lineHeight: 1.8 }}>
               {form.attending === "yes"
                 ? "We're so excited to celebrate with you! We'll be in touch with more details soon."
                 : "We'll miss you dearly. Thank you for letting us know."}
@@ -108,9 +108,9 @@ export default function RSVP() {
                     style={{
                       flex: 1,
                       padding: "0.75rem",
-                      border: `1px solid ${form.attending === val ? "#1C2B1E" : "rgba(28,43,30,0.2)"}`,
-                      backgroundColor: form.attending === val ? "#1C2B1E" : "transparent",
-                      color: form.attending === val ? "#F8F3EC" : "rgba(28,43,30,0.6)",
+                      border: `1px solid ${form.attending === val ? "#7D2E46" : "rgba(125,46,70,0.2)"}`,
+                      backgroundColor: form.attending === val ? "#7D2E46" : "transparent",
+                      color: form.attending === val ? "#FDF0F3" : "rgba(125,46,70,0.6)",
                       fontFamily: "'Jost', sans-serif",
                       fontSize: "0.7rem",
                       letterSpacing: "0.2em",
@@ -156,8 +156,8 @@ export default function RSVP() {
                 disabled={!form.attending || loading}
                 style={{
                   padding: "1rem 4rem",
-                  backgroundColor: "#1C2B1E",
-                  color: "#F8F3EC",
+                  backgroundColor: "#7D2E46",
+                  color: "#FDF0F3",
                   fontFamily: "'Jost', sans-serif",
                   fontSize: "0.7rem",
                   letterSpacing: "0.3em",
@@ -167,8 +167,8 @@ export default function RSVP() {
                   opacity: !form.attending || loading ? 0.4 : 1,
                   transition: "all 0.5s",
                 }}
-                onMouseEnter={(e) => { if (form.attending && !loading) e.currentTarget.style.backgroundColor = "#C9A84C"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "#1C2B1E"; }}
+                onMouseEnter={(e) => { if (form.attending && !loading) e.currentTarget.style.backgroundColor = "#C4738A"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "#7D2E46"; }}
               >
                 {loading ? "Sending..." : "Send RSVP"}
               </button>

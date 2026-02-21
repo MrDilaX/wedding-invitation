@@ -47,7 +47,7 @@ export default function FloatingPetals() {
             }}
           >
             <svg width={petal.size} height={petal.size} viewBox="0 0 10 14" fill="none">
-              <path d="M5,1 Q10,4 8,9 Q5,13 2,9 Q0,4 5,1 Z" fill="#E8C4B0" stroke="#C9A84C" strokeWidth="0.3" />
+              <path d="M5,1 Q10,4 8,9 Q5,13 2,9 Q0,4 5,1 Z" fill="#E8C4B0" stroke="#C4738A" strokeWidth="0.3" />
             </svg>
           </div>
         ))}

@@ -2,11 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "./theme.css";
+:root {
+  --primary:     #7D2E46;
+  --accent:      #C4738A;
+  --bg:          #FDF0F3;
+  --bg-alt:      #FAE4EA;
+  --bg-dark:     #7D2E46;
+  --text:        rgba(125,46,70,0.75);
+  --text-muted:  rgba(125,46,70,0.4);
+  --border:      rgba(196,115,138,0.22);
+  --envelope-bg: #3A0D1C;
+}
+
+/* ↑↑↑ CHANGE COLORS ONLY HERE ↑↑↑ */
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { background-color: #FDF0F3; overflow-x: hidden; }
+body { background-color: var(--bg); overflow-x: hidden; }
 
 .section-reveal {
   opacity: 0;
@@ -38,11 +50,16 @@ body { background-color: #FDF0F3; overflow-x: hidden; }
   from { height: 4px; }
   to { height: 18px; }
 }
-@keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
 
 ::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: #FDF0F3; }
-::-webkit-scrollbar-thumb { background: #C4738A; border-radius: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+/* Global reusable classes so components use variables */
+.c-primary    { color: var(--primary); }
+.c-accent     { color: var(--accent); }
+.c-muted      { color: var(--text-muted); }
+.bg-main      { background-color: var(--bg); }
+.bg-alt       { background-color: var(--bg-alt); }
+.bg-dark      { background-color: var(--bg-dark); }
+.border-theme { border-color: var(--border); }

@@ -13,10 +13,10 @@ const photos = [
 
 const gradients = [
   "linear-gradient(135deg, rgba(124,154,126,0.4), rgba(232,196,176,0.4))",
-  "linear-gradient(135deg, rgba(232,196,176,0.5), rgba(201,168,76,0.3))",
-  "linear-gradient(135deg, rgba(28,43,30,0.2), rgba(124,154,126,0.3))",
-  "linear-gradient(135deg, rgba(201,168,76,0.3), rgba(232,196,176,0.3))",
-  "linear-gradient(135deg, rgba(124,154,126,0.3), rgba(28,43,30,0.2))",
+  "linear-gradient(135deg, rgba(232,196,176,0.5), rgba(196,115,138,0.3))",
+  "linear-gradient(135deg, rgba(125,46,70,0.2), rgba(124,154,126,0.3))",
+  "linear-gradient(135deg, rgba(196,115,138,0.3), rgba(232,196,176,0.3))",
+  "linear-gradient(135deg, rgba(124,154,126,0.3), rgba(125,46,70,0.2))",
   "linear-gradient(135deg, rgba(232,196,176,0.5), rgba(124,154,126,0.3))",
 ];
 
@@ -38,13 +38,13 @@ export default function Gallery() {
 
   return (
     <>
-      <section id="gallery" style={{ padding: "5rem 1.5rem", backgroundColor: "#1C2B1E" }}>
+      <section id="gallery" style={{ padding: "5rem 1.5rem", backgroundColor: "#7D2E46" }}>
         <div style={{ maxWidth: "64rem", margin: "0 auto" }}>
           <div className="section-reveal" style={{ textAlign: "center", marginBottom: "3rem" }}>
-            <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.65rem", letterSpacing: "0.4em", textTransform: "uppercase", color: "#C9A84C", marginBottom: "0.75rem" }}>
+            <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.65rem", letterSpacing: "0.4em", textTransform: "uppercase", color: "#C4738A", marginBottom: "0.75rem" }}>
               A Glimpse of Us
             </p>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.5rem, 6vw, 4rem)", fontWeight: 300, fontStyle: "italic", color: "#F8F3EC" }}>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.5rem, 6vw, 4rem)", fontWeight: 300, fontStyle: "italic", color: "#FDF0F3" }}>
               Gallery
             </h2>
           </div>
@@ -67,7 +67,7 @@ export default function Gallery() {
                 <div style={{
                   position: "absolute", inset: 0,
                   background: gradients[i],
-                  backgroundColor: "#2A3D2C",
+                  backgroundColor: "#F5E0E8",
                   transition: "transform 0.6s ease",
                   transform: hoveredId === photo.id ? "scale(1.06)" : "scale(1)",
                   display: "flex", alignItems: "center", justifyContent: "center",
@@ -79,13 +79,13 @@ export default function Gallery() {
                 {/* Hover overlay */}
                 <div style={{
                   position: "absolute", inset: 0,
-                  backgroundColor: "rgba(28,43,30,0.6)",
+                  backgroundColor: "rgba(125,46,70,0.6)",
                   display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "0.5rem",
                   opacity: hoveredId === photo.id ? 1 : 0,
                   transition: "opacity 0.3s",
                 }}>
-                  <div style={{ width: "36px", height: "36px", borderRadius: "50%", border: "1px solid rgba(201,168,76,0.6)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" strokeWidth="2">
+                  <div style={{ width: "36px", height: "36px", borderRadius: "50%", border: "1px solid rgba(196,115,138,0.6)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C4738A" strokeWidth="2">
                       <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35M11 8v6M8 11h6"/>
                     </svg>
                   </div>
@@ -117,8 +117,8 @@ export default function Gallery() {
           {/* Close */}
           <button onClick={closeLightbox} style={{
             position: "absolute", top: "1.5rem", right: "1.5rem",
-            background: "none", border: "1px solid rgba(201,168,76,0.4)",
-            color: "#C9A84C", fontSize: "1.2rem", cursor: "pointer",
+            background: "none", border: "1px solid rgba(196,115,138,0.4)",
+            color: "#C4738A", fontSize: "1.2rem", cursor: "pointer",
             width: "40px", height: "40px", borderRadius: "50%",
             display: "flex", alignItems: "center", justifyContent: "center",
           }}>✕</button>
@@ -126,8 +126,8 @@ export default function Gallery() {
           {/* Prev */}
           <button onClick={(e) => { e.stopPropagation(); navigate(-1); }} style={{
             position: "absolute", left: "1rem",
-            background: "none", border: "1px solid rgba(201,168,76,0.3)",
-            color: "#C9A84C", cursor: "pointer",
+            background: "none", border: "1px solid rgba(196,115,138,0.3)",
+            color: "#C4738A", cursor: "pointer",
             width: "44px", height: "44px", borderRadius: "50%",
             display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem",
           }}>‹</button>
@@ -137,10 +137,10 @@ export default function Gallery() {
             <div style={{
               width: "min(600px, 80vw)", height: "min(420px, 60vh)",
               background: gradients[photos.findIndex(p => p.id === lightbox)],
-              backgroundColor: "#2A3D2C",
+              backgroundColor: "#F5E0E8",
               display: "flex", alignItems: "center", justifyContent: "center",
               borderRadius: "4px",
-              border: "1px solid rgba(201,168,76,0.2)",
+              border: "1px solid rgba(196,115,138,0.2)",
             }}>
               <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2rem", fontStyle: "italic", color: "rgba(248,243,236,0.15)" }}>A & L</span>
             </div>
@@ -152,8 +152,8 @@ export default function Gallery() {
           {/* Next */}
           <button onClick={(e) => { e.stopPropagation(); navigate(1); }} style={{
             position: "absolute", right: "1rem",
-            background: "none", border: "1px solid rgba(201,168,76,0.3)",
-            color: "#C9A84C", cursor: "pointer",
+            background: "none", border: "1px solid rgba(196,115,138,0.3)",
+            color: "#C4738A", cursor: "pointer",
             width: "44px", height: "44px", borderRadius: "50%",
             display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem",
           }}>›</button>

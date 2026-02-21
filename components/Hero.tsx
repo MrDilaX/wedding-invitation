@@ -1,109 +1,29 @@
 "use client";
-
 import { useEffect, useState } from "react";
 
 export default function Hero() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const fadeStyle = (delay: string, extraStyle?: React.CSSProperties): React.CSSProperties => ({
-    transition: "opacity 1s ease, transform 1s ease",
-    transitionDelay: delay,
-    opacity: mounted ? 1 : 0,
-    transform: mounted ? "translateY(0)" : "translateY(20px)",
-    ...extraStyle,
-  });
-
+  const [visible, setVisible] = useState(false);
+  useEffect(() => { setTimeout(() => setVisible(true), 100); }, []);
   return (
-    <section
-      id="top"
-      style={{
-        position: "relative",
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        overflow: "hidden",
-        background: "linear-gradient(160deg, #F8F3EC 0%, #EEE5D8 40%, #E8D9C8 100%)",
-      }}
-    >
-      {/* Botanical corners */}
-      <div style={{ position: "absolute", top: 0, left: 0, width: "16rem", opacity: 0.15, pointerEvents: "none" }}>
-        <BotanicalLeft />
-      </div>
-      <div style={{ position: "absolute", top: 0, right: 0, width: "16rem", opacity: 0.15, pointerEvents: "none", transform: "scaleX(-1)" }}>
-        <BotanicalLeft />
-      </div>
-
-      {/* Content */}
-      <div style={{ position: "relative", zIndex: 10, textAlign: "center", padding: "0 1.5rem", display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <p style={{ ...fadeStyle("0.2s"), fontFamily: "'Jost', sans-serif", fontSize: "0.7rem", letterSpacing: "0.4em", textTransform: "uppercase", color: "#C9A84C", marginBottom: "2rem" }}>
-          Together with their families
-        </p>
-
-        <h1 style={{ ...fadeStyle("0.4s"), fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(5rem, 15vw, 12rem)", fontWeight: 300, lineHeight: 1, color: "#1C2B1E", letterSpacing: "-0.02em", margin: 0 }}>
-          Chanaka
-        </h1>
-
-        <div style={{ ...fadeStyle("0.6s"), display: "flex", alignItems: "center", gap: "1.5rem", margin: "0.5rem 0", width: "100%", maxWidth: "28rem" }}>
-          <div style={{ flex: 1, height: "1px", background: "linear-gradient(to right, transparent, #C9A84C)" }} />
-          <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "3rem", color: "#C9A84C", fontStyle: "italic" }}>&amp;</span>
-          <div style={{ flex: 1, height: "1px", background: "linear-gradient(to left, transparent, #C9A84C)" }} />
+    <section id="top" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden", background: "linear-gradient(160deg, var(--bg) 0%, var(--bg-alt) 40%, var(--bg) 100%)", padding: "8rem 1.5rem 4rem", textAlign: "center" }}>
+      <div style={{ position: "absolute", top: "-10%", right: "-10%", width: "50vw", height: "50vw", borderRadius: "50%", background: "radial-gradient(circle, color-mix(in srgb, var(--accent) 20%, transparent) 0%, transparent 70%)", pointerEvents: "none" }} />
+      <div style={{ position: "absolute", bottom: "-10%", left: "-10%", width: "45vw", height: "45vw", borderRadius: "50%", background: "radial-gradient(circle, color-mix(in srgb, var(--accent) 15%, transparent) 0%, transparent 70%)", pointerEvents: "none" }} />
+      <div style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "all 1.2s ease", position: "relative", zIndex: 1 }}>
+        <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.65rem", letterSpacing: "0.5em", textTransform: "uppercase", color: "var(--accent)", marginBottom: "1.5rem" }}>Join us</p>
+        <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(0.9rem, 2vw, 1.1rem)", fontStyle: "italic", color: "var(--text)", marginBottom: "0.5rem" }}>Together with our loved friends and family</p>
+        <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.7rem", letterSpacing: "0.2em", color: "var(--text-muted)", marginBottom: "2rem" }}>celebrating our wedding</p>
+        <div style={{ marginBottom: "2.5rem" }}>
+          <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(4rem, 12vw, 8rem)", fontWeight: 300, fontStyle: "italic", color: "var(--primary)", lineHeight: 1 }}>Adam</h1>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(1.5rem, 4vw, 2.5rem)", color: "var(--accent)", fontStyle: "italic", margin: "0.25rem 0" }}>&</p>
+          <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(4rem, 12vw, 8rem)", fontWeight: 300, fontStyle: "italic", color: "var(--primary)", lineHeight: 1 }}>Lorah</h1>
         </div>
-
-        <h1 style={{ ...fadeStyle("0.8s"), fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(5rem, 15vw, 12rem)", fontWeight: 300, lineHeight: 1, color: "#1C2B1E", letterSpacing: "-0.02em", margin: 0 }}>
-          Ganguni
-        </h1>
-
-        <p style={{ ...fadeStyle("1s"), fontFamily: "'Jost', sans-serif", fontSize: "1rem", letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(28,43,30,0.55)", marginTop: "2.5rem" }}>
-          August 31, 2026
-        </p>
-
-        <p style={{ ...fadeStyle("1.1s"), fontFamily: "'Jost', sans-serif", fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#7C9A7E", marginTop: "0.5rem" }}>
-          Napa Valley, California
-        </p>
-
-        {/* Scroll cue */}
-        <div style={{ ...fadeStyle("1.4s"), display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem", marginTop: "5rem" }}>
-          <span style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.65rem", letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(28,43,30,0.35)" }}>
-            Scroll
-          </span>
-          <div style={{ width: "1px", height: "3rem", background: "linear-gradient(to bottom, rgba(28,43,30,0.35), transparent)", animation: "bounce 2s infinite" }} />
-        </div>
-      </div>
-
-      {/* Bottom botanical */}
-      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, display: "flex", justifyContent: "space-between", pointerEvents: "none" }}>
-        <div style={{ width: "12rem", opacity: 0.12, transform: "rotate(180deg)" }}>
-          <BotanicalLeft />
-        </div>
-        <div style={{ width: "12rem", opacity: 0.12, transform: "rotate(180deg) scaleX(-1)" }}>
-          <BotanicalLeft />
+        <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.85rem", fontWeight: 500, color: "var(--primary)", letterSpacing: "0.05em", marginBottom: "0.25rem" }}>Beringer Vineyards, Napa Valley</p>
+        <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.75rem", color: "var(--text-muted)", letterSpacing: "0.1em" }}>Aug 31, 2026</p>
+        <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(1.2rem, 3vw, 1.6rem)", fontStyle: "italic", color: "var(--accent)", marginTop: "1.5rem" }}>Save the date</p>
+        <div style={{ marginTop: "3rem", display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <div style={{ width: "1px", height: "3rem", background: "linear-gradient(to bottom, var(--accent), transparent)", animation: "bounce 2s ease infinite" }} />
         </div>
       </div>
     </section>
-  );
-}
-
-function BotanicalLeft() {
-  return (
-    <svg viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M30,280 Q40,200 80,150 Q120,100 100,20" stroke="#7C9A7E" strokeWidth="1.5" fill="none" />
-      <path d="M80,150 Q50,130 20,100" stroke="#7C9A7E" strokeWidth="1" fill="none" />
-      <ellipse cx="18" cy="96" rx="20" ry="12" transform="rotate(-30 18 96)" fill="#7C9A7E" opacity="0.5" />
-      <path d="M80,150 Q110,120 140,80" stroke="#7C9A7E" strokeWidth="1" fill="none" />
-      <ellipse cx="143" cy="76" rx="20" ry="12" transform="rotate(30 143 76)" fill="#7C9A7E" opacity="0.5" />
-      <path d="M60,200 Q30,180 10,160" stroke="#7C9A7E" strokeWidth="1" fill="none" />
-      <ellipse cx="8" cy="157" rx="18" ry="10" transform="rotate(-20 8 157)" fill="#7C9A7E" opacity="0.4" />
-      <path d="M70,180 Q100,160 120,130" stroke="#7C9A7E" strokeWidth="1" fill="none" />
-      <ellipse cx="122" cy="127" rx="16" ry="9" transform="rotate(25 122 127)" fill="#7C9A7E" opacity="0.4" />
-      <circle cx="100" cy="18" r="8" fill="#C9A84C" opacity="0.6" />
-      <circle cx="96" cy="10" r="4" fill="#C9A84C" opacity="0.4" />
-      <circle cx="104" cy="12" r="3" fill="#E8C4B0" opacity="0.6" />
-    </svg>
   );
 }
