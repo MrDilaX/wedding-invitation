@@ -51,7 +51,6 @@ export default function Home() {
         <GoogleMapSection />
         <Gallery />
         <RSVP />
-        <Comments />
         <Footer />
         <MusicPlayer autoPlay={autoPlay} />
       </main>
