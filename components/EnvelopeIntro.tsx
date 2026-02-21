@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useEffect } from "react";
 
 interface Props {
@@ -10,303 +11,177 @@ export default function EnvelopeIntro({ onOpen }: Props) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setMounted(true), 180);
-    return () => clearTimeout(timer);
+    setTimeout(() => setMounted(true), 150);
   }, []);
 
-  const playDramaticSound = () => {
-    // Try realistic sound first
-    const audio = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_6d4c8d7e0d.mp3?filename=envelope-38344.mp3");
-    // Fallback: your original synth tones if load fails or blocked
-    audio.onerror = () => {
-      try {
-        const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
-        const now = ctx.currentTime;
-        const tone = (f: number, d: number, g: number, s: number) => {
-          const o = ctx.createOscillator();
-          const gn = ctx.createGain();
-          o.type = "sine";
-          o.frequency.value = f;
-          gn.gain.setValueAtTime(g, s);
-          gn.gain.exponentialRampToValueAtTime(0.001, s + d);
-          o.connect(gn); gn.connect(ctx.destination);
-          o.start(s); o.stop(s + d);
-        };
-        tone(880, 0.16, 0.14, now);
-        tone(1320, 0.20, 0.10, now + 0.11);
-        tone(660, 0.28, 0.08, now + 0.05);
-      } catch {}
-    };
-    audio.volume = 0.7;
-    audio.play().catch(() => {}); // autoplay may be blocked → silent fail
+  const playSound = () => {
+    try {
+      const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const playRustle = (start: number, dur: number, gain: number) => {
+        const buf = ctx.createBuffer(1, ctx.sampleRate * dur, ctx.sampleRate);
+        const data = buf.getChannelData(0);
+        for (let i = 0; i < data.length; i++) {
+          data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / data.length, 0.6);
+        }
+        const src = ctx.createBufferSource();
+        src.buffer = buf;
+        const g = ctx.createGain();
+        g.gain.setValueAtTime(gain, start);
+        g.gain.exponentialRampToValueAtTime(0.001, start + dur);
+        const f = ctx.createBiquadFilter();
+        f.type = "bandpass"; f.frequency.value = 3500; f.Q.value = 0.6;
+        src.connect(f); f.connect(g); g.connect(ctx.destination);
+        src.start(start);
+      };
+      const t = ctx.currentTime;
+      playRustle(t, 0.25, 0.45);
+      playRustle(t + 0.12, 0.35, 0.3);
+      playRustle(t + 0.35, 0.4, 0.2);
+    } catch {}
   };
 
   const handleClick = () => {
     if (phase !== "idle") return;
-    playDramaticSound();
+    playSound();
     setPhase("opening");
-    setTimeout(() => {
-      setPhase("done");
-      onOpen();
-    }, 2200); // longer to let hearts & text breathe
+    setTimeout(() => { setPhase("done"); onOpen(); }, 1500);
   };
 
   if (phase === "done") return null;
-
   const isOpening = phase === "opening";
 
+  // Envelope dimensions — we use SVG for the flap so triangle never clips
   return (
     <div
       onClick={handleClick}
       style={{
-        position: "fixed",
-        inset: 0,
-        zIndex: 9999,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        background: "var(--envelope-bg, #0f0c08)",
+        position: "fixed", inset: 0, zIndex: 100,
         cursor: phase === "idle" ? "pointer" : "default",
         overflow: "hidden",
-        userSelect: "none",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        background: "radial-gradient(ellipse at center, #5C1A2E 0%, #3A0D1C 100%)",
       }}
     >
-      <div
-        style={{
-          position: "relative",
-          width: "min(680px, 92vw)",
-          height: "min(460px, 64vw)",
-          opacity: mounted ? 1 : 0,
-          transform: mounted ? "scale(1)" : "scale(0.92)",
-          transition: "all 1.2s ease-out",
-        }}
-      >
-        {/* glow */}
-        <div
-          style={{
-            position: "absolute",
-            inset: "-60px",
-            background: "radial-gradient(circle at center, rgba(255,220,180,0.28), transparent 65%)",
-            opacity: isOpening ? 0.9 : 0,
-            transition: "opacity 1.4s ease",
-            pointerEvents: "none",
-          }}
-        />
+      {/* Envelope wrapper — no overflow hidden so flap can rotate freely */}
+      <div style={{
+        position: "relative",
+        width: "min(640px, 88vw)",
+        height: "min(420px, 60vw)",
+        opacity: mounted ? 1 : 0,
+        transform: mounted ? "scale(1)" : "scale(0.96)",
+        transition: "opacity 1s ease, transform 1s ease",
+        willChange: "transform",
+        // Critical: overflow visible so rotated flap shows above envelope
+        overflow: "visible",
+      }}>
 
-        {/* envelope body (same as before) */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background: "#f9f1e4",
-            borderRadius: "6px",
-            overflow: "hidden",
-            boxShadow: "0 40px 100px rgba(0,0,0,0.65)",
-          }}
-        >
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, #fdf8ef, #f0e4d0 55%, #e8d9c2)" }} />
-          <div style={{ position: "absolute", inset: 0, clipPath: "polygon(0 0, 44% 48%, 0 100%)", background: "linear-gradient(90deg, #e3d0b2, #d9c2a4)" }} />
-          <div style={{ position: "absolute", inset: 0, clipPath: "polygon(100% 0, 56% 48%, 100% 100%)", background: "linear-gradient(270deg, #e3d0b2, #d9c2a4)" }} />
-          <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "54%", clipPath: "polygon(0 100%, 50% 38%, 100% 100%)", background: "linear-gradient(to top, #d6c2a8, #c8b498)" }} />
+        {/* ── ENVELOPE BODY (clips its own children) ── */}
+        <div style={{
+          position: "absolute", inset: 0,
+          borderRadius: "3px",
+          overflow: "hidden",
+          boxShadow: "0 30px 80px rgba(0,0,0,0.75), 0 6px 20px rgba(0,0,0,0.4)",
+          background: "#F0E8D8",
+        }}>
+          {/* Paper texture */}
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, #FAF3E4 0%, #EEE2C8 50%, #F2E8D2 100%)" }} />
+          {/* Left diagonal fold */}
+          <div style={{ position: "absolute", inset: 0, clipPath: "polygon(0 0, 0 100%, 50% 50%)", background: "linear-gradient(90deg, #D8CAB0 0%, #E8D8C0 100%)" }} />
+          {/* Right diagonal fold */}
+          <div style={{ position: "absolute", inset: 0, clipPath: "polygon(100% 0, 100% 100%, 50% 50%)", background: "linear-gradient(270deg, #D8CAB0 0%, #E8D8C0 100%)" }} />
+          {/* Bottom V fold */}
+          <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "52%", clipPath: "polygon(0 100%, 50% 0%, 100% 100%)", background: "linear-gradient(180deg, #E0D0B8 0%, #CEC0A4 100%)" }} />
+          {/* Subtle center lines */}
+          <div style={{ position: "absolute", top: "50%", left: 0, right: 0, height: "1px", background: "rgba(150,120,80,0.15)" }} />
+          <div style={{ position: "absolute", top: 0, bottom: 0, left: "50%", width: "1px", background: "rgba(150,120,80,0.1)" }} />
+          {/* Border */}
+          <div style={{ position: "absolute", inset: 0, border: "1px solid rgba(150,120,80,0.3)", borderRadius: "3px", pointerEvents: "none" }} />
         </div>
 
-        {/* letter with text + hearts */}
-        <div
-          style={{
-            position: "absolute",
-            left: "7%",
-            right: "7%",
-            bottom: "9%",
-            height: "76%",
-            borderRadius: "4px",
-            background: "linear-gradient(to bottom, #fffef9, #f8f2e8)",
-            boxShadow: "0 12px 40px rgba(0,0,0,0.3)",
-            transform: isOpening ? "translateY(-160%) scale(1.04)" : "translateY(0)",
-            transition: "transform 1.4s cubic-bezier(0.22, 0.8, 0.18, 1.05)",
-            zIndex: 5,
-            overflow: "hidden",
-          }}
-        >
-          {/* romantic text inside letter */}
-          <div
-            style={{
-              position: "absolute",
-              inset: "10%",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              textAlign: "center",
-              opacity: isOpening ? 1 : 0,
-              transition: "opacity 1.2s ease 0.4s",
-              color: "#4a2c0d",
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
-            }}
-          >
-            <p style={{ fontSize: "1.8rem", margin: "0 0 1rem 0", fontStyle: "italic" }}>
-              To my dearest...
-            </p>
-            <p style={{ fontSize: "1.3rem", maxWidth: "80%", lineHeight: 1.5 }}>
-              Every beat of my heart whispers your name. Forever yours.
-            </p>
-          </div>
-
-          {/* floating hearts (appear during opening) */}
-          {isOpening && (
-            <>
-              <div className="heart" style={heartStyle(10, 20, 0.8)} />
-              <div className="heart" style={heartStyle(35, 40, 1.1)} />
-              <div className="heart" style={heartStyle(60, 15, 0.9)} />
-              <div className="heart" style={heartStyle(80, 55, 1.0)} />
-              <div className="heart" style={heartStyle(25, 70, 0.7)} />
-            </>
-          )}
-        </div>
-
-        {/* wax seal (same) */}
-        <div
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: `translate(-50%, -8%) scale(${isOpening ? 0.1 : 1})`,
-            opacity: isOpening ? 0 : 1,
-            transition: "all 0.5s ease",
-            zIndex: 10,
-          }}
-        >
-          {/* ... wax seal content unchanged ... */}
-          <div
-            style={{
-              width: "80px",
-              height: "80px",
-              borderRadius: "50%",
-              background: "radial-gradient(circle at 38% 32%, #d12c2c, #9b1e1e 60%, #6b0f0f)",
-              border: "2.5px solid rgba(255,210,170,0.25)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              boxShadow: "0 8px 24px rgba(0,0,0,0.55)",
-            }}
-          >
-            <span
-              style={{
-                fontFamily: "'Cormorant Garamond', Georgia, serif",
-                fontSize: "1.1rem",
-                fontStyle: "italic",
-                color: "rgba(255,240,220,0.94)",
-                letterSpacing: "0.12em",
-              }}
-            >
-              A · L
-            </span>
+        {/* ── WAX SEAL ── */}
+        <div style={{
+          position: "absolute",
+          top: "50%", left: "50%",
+          transform: "translate(-50%, -5%)",
+          zIndex: 6,
+          opacity: isOpening ? 0 : 1,
+          transition: "opacity 0.25s ease",
+          pointerEvents: "none",
+        }}>
+          <div style={{
+            width: "74px", height: "74px", borderRadius: "50%",
+            background: "radial-gradient(circle at 35% 30%, #C03535 0%, #8B1C1C 55%, #651010 100%)",
+            border: "2px solid rgba(255,200,160,0.2)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            boxShadow: "0 6px 20px rgba(0,0,0,0.5), inset 0 1px 3px rgba(255,200,180,0.2), inset 0 -2px 4px rgba(0,0,0,0.3)",
+            position: "relative",
+          }}>
+            <div style={{ position: "absolute", inset: "7px", borderRadius: "50%", border: "1px solid rgba(255,200,160,0.18)" }} />
+            <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "0.9rem", fontStyle: "italic", color: "rgba(255,235,210,0.92)", letterSpacing: "0.1em", position: "relative", zIndex: 1 }}>A·L</span>
           </div>
         </div>
 
-        {/* flap (same) */}
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            height: "54%",
-            transformOrigin: "50% 0%",
-            transform: isOpening
-              ? "perspective(1000px) rotateX(-168deg)"
-              : "perspective(1000px) rotateX(0deg)",
-            transition: "transform 1s cubic-bezier(0.3, 0.0, 0.1, 1)",
-            transformStyle: "preserve-3d",
-            zIndex: 12,
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              clipPath: "polygon(0 0, 50% 100%, 100% 0)",
-              background: "linear-gradient(165deg, #f5e9d2, #e3d1b5 60%, #d4bfa3)",
-              backfaceVisibility: "hidden",
-              boxShadow: isOpening ? "inset 0 -40px 60px rgba(0,0,0,0.25)" : "none",
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              clipPath: "polygon(0 0, 50% 100%, 100% 0)",
-              background: "linear-gradient(180deg, #d9c7b0, #c7b39a)",
-              transform: "rotateX(180deg)",
-              backfaceVisibility: "hidden",
-            }}
-          />
+        {/* ── TOP FLAP ── 
+            Key fix: This sits OUTSIDE the body's overflow:hidden
+            Uses transformStyle preserve-3d with backface so back shows correctly
+        ── */}
+        <div style={{
+          position: "absolute",
+          top: 0, left: 0, right: 0,
+          height: "52%",
+          zIndex: 10,
+          // Rotate from the BOTTOM edge so triangle folds backward/upward
+          transformOrigin: "50% 100%",
+          transform: isOpening
+            ? "perspective(1000px) rotateX(179deg)"
+            : "perspective(1000px) rotateX(0deg)",
+          transition: "transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          willChange: "transform",
+          transformStyle: "preserve-3d",
+          // No overflow hidden — triangle fully visible
+        }}>
+          {/* Front face */}
+          <div style={{
+            position: "absolute", inset: 0,
+            clipPath: "polygon(0 0, 50% 100%, 100% 0)",
+            background: "linear-gradient(170deg, #EEE2CC 0%, #E0CEB0 65%, #D4BFA0 100%)",
+            backfaceVisibility: "hidden",
+          }} />
+          {/* Back face — rotated 180 so it shows when flap flips over */}
+          <div style={{
+            position: "absolute", inset: 0,
+            clipPath: "polygon(0 0, 50% 100%, 100% 0)",
+            background: "linear-gradient(180deg, #C4B090 0%, #B4A080 100%)",
+            transform: "rotateX(180deg)",
+            backfaceVisibility: "hidden",
+          }} />
         </div>
       </div>
 
-      {/* tap hint (same) */}
+      {/* Tap hint */}
       {phase === "idle" && (
-        <div
-          style={{
-            position: "absolute",
-            bottom: "3rem",
-            left: "50%",
-            transform: "translateX(-50%)",
-            opacity: mounted ? 0.7 : 0,
-            transition: "opacity 1.4s ease 0.6s",
-            pointerEvents: "none",
-            textAlign: "center",
-          }}
-        >
-          <p
-            style={{
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontStyle: "italic",
-              fontSize: "1.3rem",
-              color: "rgba(245,235,210,0.55)",
-              margin: 0,
-            }}
-          >
-            tap to open
+        <div style={{
+          position: "absolute", bottom: "2.5rem", left: "50%",
+          transform: "translateX(-50%)",
+          display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem",
+          opacity: mounted ? 1 : 0, transition: "opacity 1s ease 0.5s",
+          pointerEvents: "none",
+        }}>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1rem", fontStyle: "italic", color: "rgba(245,237,216,0.4)" }}>
+            Tap to open
           </p>
+          <div style={{ width: "1px", height: "2rem", background: "linear-gradient(to bottom, rgba(201,168,76,0.5), transparent)", animation: "bounce 1.8s ease infinite" }} />
         </div>
       )}
 
-      {/* fade overlay */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          background: "var(--bg, #0a0906)",
-          opacity: isOpening ? 1 : 0,
-          transition: "opacity 0.9s ease 1.1s",
-          pointerEvents: "none",
-        }}
-      />
-
-      {/* simple CSS hearts animation */}
-      <style jsx>{`
-        .heart {
-          position: absolute;
-          font-size: 2.2rem;
-          color: #e63946;
-          opacity: 0;
-          animation: floatHeart 3s ease-out forwards;
-          pointer-events: none;
-        }
-        @keyframes floatHeart {
-          0%   { opacity: 0; transform: translateY(0) scale(0.4) rotate(0deg); }
-          20%  { opacity: 0.9; transform: translateY(-40%) scale(1.1) rotate(15deg); }
-          100% { opacity: 0; transform: translateY(-180%) scale(0.6) rotate(-30deg); }
-        }
-      `}</style>
+      {/* Cream page transition overlay */}
+      <div style={{
+        position: "absolute", inset: 0,
+        backgroundColor: "#F8F3EC",
+        opacity: isOpening ? 1 : 0,
+        transition: "opacity 0.6s ease 0.85s",
+        zIndex: 20, pointerEvents: "none",
+      }} />
     </div>
   );
 }
-
-// Helper for random-ish heart positions/delays
-const heartStyle = (leftPercent: number, delaySec: number, scale: number) => ({
-  left: `${leftPercent}%`,
-  bottom: "20%",
-  animationDelay: `${delaySec * 0.15}s`,
-  transform: `scale(${scale})`,
-});
