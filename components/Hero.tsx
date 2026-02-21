@@ -46,7 +46,7 @@ export default function Hero() {
         </p>
 
         <h1 style={{ ...fadeStyle("0.4s"), fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(5rem, 15vw, 12rem)", fontWeight: 300, lineHeight: 1, color: "#1C2B1E", letterSpacing: "-0.02em", margin: 0 }}>
-          Adam
+          Chanaka
         </h1>
 
         <div style={{ ...fadeStyle("0.6s"), display: "flex", alignItems: "center", gap: "1.5rem", margin: "0.5rem 0", width: "100%", maxWidth: "28rem" }}>
@@ -56,11 +56,11 @@ export default function Hero() {
         </div>
 
         <h1 style={{ ...fadeStyle("0.8s"), fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(5rem, 15vw, 12rem)", fontWeight: 300, lineHeight: 1, color: "#1C2B1E", letterSpacing: "-0.02em", margin: 0 }}>
-          Lorah
+          Ganguni
         </h1>
 
         <p style={{ ...fadeStyle("1s"), fontFamily: "'Jost', sans-serif", fontSize: "1rem", letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(28,43,30,0.55)", marginTop: "2.5rem" }}>
-          September 14, 2025
+          August 31, 2026
         </p>
 
         <p style={{ ...fadeStyle("1.1s"), fontFamily: "'Jost', sans-serif", fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#7C9A7E", marginTop: "0.5rem" }}>

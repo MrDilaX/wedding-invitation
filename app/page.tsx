@@ -48,11 +48,9 @@ export default function Home() {
         <Nav />
         <Hero />
         <Countdown />
-        <OurStory />
         <EventDetails />
         <GoogleMapSection />
         <Gallery />
-        <RSVP />
         <Comments />
         <Footer />
         <MusicPlayer autoPlay={autoPlay} />

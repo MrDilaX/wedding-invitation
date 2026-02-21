@@ -23,7 +23,7 @@ export default function Footer() {
         </h2>
 
         <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.65rem", letterSpacing: "0.4em", textTransform: "uppercase", color: "#C9A84C", marginTop: "1rem", marginBottom: "3rem" }}>
-          September 14, 2025 · Napa Valley, California
+          August 31, 2026 · Grand Palace, Hikkaduwa
         </p>
 
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "1rem", marginBottom: "3rem" }}>
@@ -35,12 +35,12 @@ export default function Footer() {
         <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.75rem", color: "rgba(248,243,236,0.25)" }}>
           Questions?{" "}
           <a href="mailto:hello@adamandlorah.com" style={{ color: "rgba(201,168,76,0.55)", textDecoration: "none" }}>
-            hello@adamandlorah.com
+            mrdilax214@gmail.com
           </a>
         </p>
 
         <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.7rem", color: "rgba(248,243,236,0.12)", marginTop: "2rem" }}>
-          Made with love ✦ 2025
+          Made with love ✦ 2026 ✦ next.js ✦ dilax
         </p>
       </div>
     </footer>
