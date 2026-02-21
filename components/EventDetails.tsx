@@ -2,9 +2,9 @@
 
 const events = [
   {
-    time: "4:00 PM",
-    title: "The Ceremony",
-    desc: "Exchange of vows",
+    time: "9:41 AM",
+    title: "Arrival pf the Bride & Groom",
+    desc: "",
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
@@ -12,9 +12,32 @@ const events = [
     ),
   },
   {
-    time: "5:30 PM",
-    title: "Cocktail Hour",
-    desc: "Drinks and hors d'oeuvres in the garden",
+    time: "9:50 PM",
+    title: "Traditional Tea Ceremony",
+    desc: "",
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/>
+        <path d="M7 2v20"/>
+        <path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/>
+      </svg>
+      
+    ),
+  },
+  {
+    time: "10:09 AM",
+    title: "Poruwa Ceremony ",
+    desc: "Auspicious Time",
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+      </svg>
+    ),
+  },
+  {
+    time: "11:45 AM",
+    title: "Issuing of Liqour",
+    desc: "Toast",
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M8 22h8M12 11v11M5 2l7 9 7-9"/>
@@ -22,37 +45,29 @@ const events = [
     ),
   },
   {
-    time: "7:00 PM",
-    title: "Dinner",
-    desc: "Three-course dinner",
+    time: "12:30 PM",
+    title: "Wedding Lunch",
+    desc: "",
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/>
         <path d="M7 2v20"/>
         <path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/>
       </svg>
+      
     ),
   },
   {
-    time: "9:00 PM",
-    title: "First Dance",
-    desc: "Couple's first dance",
+    time: "4:05 PM",
+    title: "Departure of the Bride & Groom",
+    desc: "",
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M9 18V5l12-2v13"/>
-        <circle cx="6" cy="18" r="3"/>
-        <circle cx="18" cy="16" r="3"/>
+        <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/>
+        <path d="M7 2v20"/>
+        <path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/>
       </svg>
-    ),
-  },
-  {
-    time: "10:00 PM",
-    title: "Reception & Dancing",
-    desc: "Dance the night away with us",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-      </svg>
+      
     ),
   },
 ];
@@ -75,20 +90,20 @@ function AddToCalendarButtons() {
     letterSpacing: "0.15em", textTransform: "uppercase",
     textDecoration: "none",
     border: "1px solid rgba(125,46,70,0.75)",
-    color: "#FAE4EA", backgroundColor: "transparent",
+    color: "#C4738A", backgroundColor: "transparent",
     cursor: "pointer", transition: "all 0.25s", borderRadius: "100px",
   };
 
   return (
     <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", justifyContent: "center", marginTop: "3rem" }}>
       <a href={googleUrl} target="_blank" rel="noopener noreferrer" style={btn}
-        onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FAE4EA"; e.currentTarget.style.color = "#1C2B1E"; }}
+        onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#C4738A"; e.currentTarget.style.color = "#1C2B1E"; }}
         onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = "#FAE4EA"; }}>
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 18H5V8h14v13zM7 10h5v5H7z"/></svg>
         Google Calendar
       </a>
       <a href={icsUrl} download="Chanuka-Gangunih-wedding.ics" style={btn}
-        onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FAE4EA"; e.currentTarget.style.color = "#1C2B1E"; }}
+        onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#C4738A"; e.currentTarget.style.color = "#1C2B1E"; }}
         onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = "#FAE4EA"; }}>
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H7a2 2 0 0 0-2 2v16l7-3 7 3V5a2 2 0 0 0-2-2z"/></svg>
         Apple / Outlook
@@ -99,7 +114,7 @@ function AddToCalendarButtons() {
 
 export default function EventDetails() {
   return (
-    <section id="details" style={{ padding: "5rem 1.5rem", backgroundColor: "#F5EFE6" }}>
+    <section id="details" style={{ padding: "5rem 1.5rem", backgroundColor: "#FAE4EA" }}>
       <div style={{ maxWidth: "40rem", margin: "0 auto" }}>
 
         {/* Header */}
@@ -110,7 +125,7 @@ export default function EventDetails() {
           <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.5rem, 6vw, 3.8rem)", fontWeight: 300, fontStyle: "italic", color: "#1C2B1E", marginBottom: "0.5rem" }}>
             Schedule of Events
           </h2>
-          <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.78rem", color: "rgba(28,43,30,0.45)" }}>
+          <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "1rem", color: "#FAE4EA;" }}>
             August 31, 2026 · Grand Palace, Hikkaduwa
           </p>
         </div>
@@ -140,11 +155,11 @@ export default function EventDetails() {
                   flexShrink: 0,
                   width: "72px", height: "72px",
                   borderRadius: "50%",
-                  backgroundColor: "#FAF6EE",
+                  backgroundColor: "#7D2E46",
                   border: "1px solid rgba(201,168,76,0.15)",
                   boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  color: "#FAE4EA",
+                  color: "#FAF6EE",
                   position: "relative", zIndex: 1,
                 }}>
                   {event.icon}
@@ -155,7 +170,7 @@ export default function EventDetails() {
                   {/* Time badge */}
                   <div style={{
                     display: "inline-block",
-                    backgroundColor: "#FAE4EA",
+                    backgroundColor: "#C4738A",
                     color: "#FAF6EE",
                     fontFamily: "'Jost', sans-serif",
                     fontSize: "0.72rem",
@@ -183,7 +198,7 @@ export default function EventDetails() {
                   <p style={{
                     fontFamily: "'Jost', sans-serif",
                     fontSize: "0.82rem",
-                    color: "rgba(28,43,30,0.45)",
+                    color: "#FAE4EA;",
                     lineHeight: 1.6,
                   }}>
                     {event.desc}
@@ -198,7 +213,6 @@ export default function EventDetails() {
         <div className="section-reveal">
           <AddToCalendarButtons />
         </div>
-
       </div>
     </section>
   );
