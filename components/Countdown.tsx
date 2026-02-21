@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 interface TimeLeft {
   days: number;
@@ -21,91 +21,132 @@ function calculateTimeLeft(targetDate: Date): TimeLeft {
 }
 
 function FlipCard({ value, label }: { value: number; label: string }) {
-  const [current, setCurrent] = useState(value);
-  const [prev, setPrev] = useState(value);
-  const [flipping, setFlipping] = useState(false);
   const display = String(value).padStart(2, "0");
-  const prevDisplay = String(prev).padStart(2, "0");
+  const prevRef = useRef(display);
+  const [flipping, setFlipping] = useState(false);
+  const [prevDisplay, setPrevDisplay] = useState(display);
 
   useEffect(() => {
-    if (value !== current) {
-      setPrev(current);
+    if (prevRef.current !== display) {
+      setPrevDisplay(prevRef.current);
       setFlipping(true);
-      setTimeout(() => {
-        setCurrent(value);
-        setFlipping(false);
-      }, 300);
+      const t = setTimeout(() => setFlipping(false), 400);
+      prevRef.current = display;
+      return () => clearTimeout(t);
     }
-  }, [value]);
+  }, [display]);
+
+  const cardStyle: React.CSSProperties = {
+    width: "70px",
+    height: "44px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#243528",
+    overflow: "hidden",
+  };
+
+  const numStyle: React.CSSProperties = {
+    fontFamily: "'Cormorant Garamond', serif",
+    fontSize: "clamp(2rem, 5vw, 3rem)",
+    fontWeight: 300,
+    color: "#F8F3EC",
+    lineHeight: 1,
+    userSelect: "none",
+  };
 
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.75rem" }}>
-      <div style={{ position: "relative", width: "80px", height: "96px", perspective: "400px" }}>
-        {/* Static bottom half (new value) */}
+      <div style={{
+        position: "relative",
+        width: "70px",
+        height: "90px",
+        borderRadius: "6px",
+        overflow: "hidden",
+        boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
+      }}>
+        {/* Top half — static, shows current value */}
         <div style={{
-          position: "absolute", bottom: 0, left: 0, right: 0, height: "50%",
-          backgroundColor: "#243528",
-          borderRadius: "0 0 6px 6px",
-          display: "flex", alignItems: "flex-start", justifyContent: "center",
-          overflow: "hidden",
-          borderTop: "1px solid rgba(201,168,76,0.1)",
+          ...cardStyle,
+          position: "absolute", top: 0, left: 0, right: 0,
+          height: "50%",
+          alignItems: "flex-end",
+          borderBottom: "1px solid rgba(0,0,0,0.3)",
+          background: "linear-gradient(180deg, #2A3D2C 0%, #1F2E21 100%)",
         }}>
-          <span style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontSize: "3.5rem", fontWeight: 300,
-            color: "#F8F3EC",
-            lineHeight: 1,
-            marginTop: "-0.05em",
-          }}>{display}</span>
+          <span style={{ ...numStyle, marginBottom: "-0.12em" }}>{display}</span>
         </div>
 
-        {/* Static top half (current value) */}
+        {/* Bottom half — static, shows current value */}
         <div style={{
-          position: "absolute", top: 0, left: 0, right: 0, height: "50%",
-          backgroundColor: "#1C2B1E",
-          borderRadius: "6px 6px 0 0",
-          display: "flex", alignItems: "flex-end", justifyContent: "center",
-          overflow: "hidden",
-          borderBottom: "1px solid rgba(201,168,76,0.15)",
+          ...cardStyle,
+          position: "absolute", bottom: 0, left: 0, right: 0,
+          height: "50%",
+          alignItems: "flex-start",
+          background: "linear-gradient(180deg, #1C2B1E 0%, #243528 100%)",
         }}>
-          <span style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontSize: "3.5rem", fontWeight: 300,
-            color: "#F8F3EC",
-            lineHeight: 1,
-            marginBottom: "-0.05em",
-          }}>{display}</span>
+          <span style={{ ...numStyle, marginTop: "-0.12em" }}>{display}</span>
         </div>
 
-        {/* Flipping card */}
+        {/* FLIP — top half of OLD value folds down */}
         {flipping && (
           <div style={{
-            position: "absolute", top: 0, left: 0, right: 0, height: "50%",
-            backgroundColor: "#1C2B1E",
-            borderRadius: "6px 6px 0 0",
-            display: "flex", alignItems: "flex-end", justifyContent: "center",
-            overflow: "hidden",
+            position: "absolute", top: 0, left: 0, right: 0,
+            height: "50%",
+            zIndex: 3,
             transformOrigin: "bottom center",
-            animation: "flipTop 0.3s ease forwards",
-            zIndex: 2,
+            animation: "flipDown 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards",
+            overflow: "hidden",
+            background: "linear-gradient(180deg, #2A3D2C 0%, #1F2E21 100%)",
+            display: "flex", alignItems: "flex-end", justifyContent: "center",
           }}>
-            <span style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: "3.5rem", fontWeight: 300,
-              color: "#F8F3EC",
-              lineHeight: 1,
-              marginBottom: "-0.05em",
-            }}>{prevDisplay}</span>
+            <span style={{ ...numStyle, marginBottom: "-0.12em" }}>{prevDisplay}</span>
           </div>
         )}
+
+        {/* FLIP — bottom half of NEW value flips up from folded */}
+        {flipping && (
+          <div style={{
+            position: "absolute", bottom: 0, left: 0, right: 0,
+            height: "50%",
+            zIndex: 3,
+            transformOrigin: "top center",
+            animation: "flipUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards",
+            overflow: "hidden",
+            background: "linear-gradient(180deg, #1C2B1E 0%, #243528 100%)",
+            display: "flex", alignItems: "flex-start", justifyContent: "center",
+          }}>
+            <span style={{ ...numStyle, marginTop: "-0.12em" }}>{display}</span>
+          </div>
+        )}
+
+        {/* Shine line in the middle */}
+        <div style={{
+          position: "absolute", top: "50%", left: 0, right: 0,
+          height: "1px",
+          backgroundColor: "rgba(0,0,0,0.5)",
+          zIndex: 4,
+          pointerEvents: "none",
+        }} />
       </div>
 
       <span style={{
         fontFamily: "'Jost', sans-serif",
-        fontSize: "0.6rem", letterSpacing: "0.3em",
+        fontSize: "0.58rem", letterSpacing: "0.3em",
         textTransform: "uppercase",
-        color: "rgba(248,243,236,0.4)",
+        color: "rgba(248,243,236,0.35)",
       }}>{label}</span>
+
+      <style>{`
+        @keyframes flipDown {
+          0%   { transform: perspective(400px) rotateX(0deg); }
+          100% { transform: perspective(400px) rotateX(-90deg); opacity: 0.6; }
+        }
+        @keyframes flipUp {
+          0%   { transform: perspective(400px) rotateX(90deg); opacity: 0.6; }
+          100% { transform: perspective(400px) rotateX(0deg); }
+        }
+      `}</style>
     </div>
   );
 }
@@ -145,7 +186,7 @@ export default function Countdown() {
         <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 300, fontStyle: "italic", color: "#F8F3EC", marginBottom: "3rem" }}>
           Our Big Day
         </h2>
-        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "1.5rem" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "2rem" }}>
           {units.map(({ label, value }) => (
             <FlipCard key={label} value={value} label={label} />
           ))}

@@ -2,74 +2,88 @@
 
 import { useEffect, useRef, useState } from "react";
 
-export default function MusicPlayer() {
+interface Props {
+  autoPlay?: boolean;
+}
+
+export default function MusicPlayer({ autoPlay = false }: Props) {
   const [playing, setPlaying] = useState(false);
   const [visible, setVisible] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
-    setTimeout(() => setVisible(true), 2000);
+    setTimeout(() => setVisible(true), 500);
   }, []);
+
+  // Auto-play when envelope opens
+  useEffect(() => {
+    if (autoPlay && audioRef.current) {
+      audioRef.current.play().catch(() => {});
+      setPlaying(true);
+    }
+  }, [autoPlay]);
 
   const toggle = () => {
     if (!audioRef.current) return;
     if (playing) {
       audioRef.current.pause();
+      setPlaying(false);
     } else {
       audioRef.current.play().catch(() => {});
+      setPlaying(true);
     }
-    setPlaying(!playing);
   };
-
-  const bars = [1, 2, 3, 4, 5];
 
   return (
     <>
-      {/* Replace src with your actual music file in /public */}
       <audio ref={audioRef} loop>
         <source src="/music.mp3" type="audio/mpeg" />
       </audio>
 
-      <div
+      <button
         onClick={toggle}
+        title={playing ? "Pause music" : "Play music"}
         style={{
           position: "fixed", bottom: "2rem", right: "2rem",
           zIndex: 50,
           width: "52px", height: "52px",
           borderRadius: "50%",
           backgroundColor: "#1C2B1E",
-          border: "1px solid rgba(201,168,76,0.4)",
+          border: `1px solid ${playing ? "#C9A84C" : "rgba(201,168,76,0.35)"}`,
           display: "flex", alignItems: "center", justifyContent: "center",
           cursor: "pointer",
           boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
           opacity: visible ? 1 : 0,
-          transition: "opacity 0.5s, transform 0.2s",
-          transform: visible ? "scale(1)" : "scale(0.8)",
+          transition: "opacity 0.5s, border-color 0.3s",
+          background: "none",
+          padding: 0,
         }}
-        onMouseEnter={(e) => e.currentTarget.style.borderColor = "#C9A84C"}
-        onMouseLeave={(e) => e.currentTarget.style.borderColor = "rgba(201,168,76,0.4)"}
-        title={playing ? "Pause music" : "Play music"}
       >
         {playing ? (
-          /* Animated bars */
           <div style={{ display: "flex", alignItems: "center", gap: "2px", height: "20px" }}>
-            {bars.map((b) => (
+            {[1, 2, 3, 4, 5].map((b) => (
               <div key={b} style={{
                 width: "3px",
-                height: `${8 + Math.random() * 12}px`,
                 backgroundColor: "#C9A84C",
                 borderRadius: "2px",
-                animation: `pulse ${0.5 + b * 0.15}s ease-in-out infinite alternate`,
+                animation: `musicBar ${0.4 + b * 0.1}s ease-in-out infinite alternate`,
+                height: "12px",
               }} />
             ))}
           </div>
         ) : (
-          /* Play icon */
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#C9A84C">
             <path d="M8 5v14l11-7z" />
           </svg>
         )}
-      </div>
+      </button>
+
+      <style>{`
+        @keyframes musicBar {
+          from { height: 4px; }
+          to { height: 18px; }
+        }
+      `}</style>
     </>
   );
 }

@@ -17,6 +17,13 @@ import MusicPlayer from "@/components/MusicPlayer";
 
 export default function Home() {
   const [opened, setOpened] = useState(false);
+  const [autoPlay, setAutoPlay] = useState(false);
+
+  const handleOpen = () => {
+    setOpened(true);
+    // Small delay so envelope fade finishes before music starts
+    setTimeout(() => setAutoPlay(true), 800);
+  };
 
   useEffect(() => {
     if (!opened) return;
@@ -31,7 +38,7 @@ export default function Home() {
 
   return (
     <>
-      <EnvelopeIntro onOpen={() => setOpened(true)} />
+      <EnvelopeIntro onOpen={handleOpen} />
       <main style={{
         backgroundColor: "#F8F3EC",
         opacity: opened ? 1 : 0,
@@ -46,10 +53,9 @@ export default function Home() {
         <GoogleMapSection />
         <Gallery />
         <RSVP />
-        {/* Comments — clearly visible between RSVP and Footer */}
         <Comments />
         <Footer />
-        <MusicPlayer />
+        <MusicPlayer autoPlay={autoPlay} />
       </main>
     </>
   );
