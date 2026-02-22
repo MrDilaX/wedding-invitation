@@ -36,7 +36,7 @@ export default function Home() {
       <GoogleMapSection />
       <Gallery />
       <RSVP />
-      <Comments />
+      {/* <Comments /> */}
       <Footer />
       <MusicPlayer />
     </main>
