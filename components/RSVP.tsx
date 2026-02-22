@@ -1,72 +1,201 @@
 "use client";
+
 import { useState } from "react";
 
-type Status = "yes"|"no"|"";
-interface Form { name:string; email:string; attending:Status; guests:string; dietary:string; message:string; }
+type AttendingStatus = "yes" | "no" | "";
+
+interface FormData {
+  name: string;
+  email: string;
+  attending: AttendingStatus;
+  guests: string;
+  dietary: string;
+  message: string;
+}
 
 export default function RSVP() {
-  const [form, setForm] = useState<Form>({ name:"", email:"", attending:"", guests:"1", dietary:"", message:"" });
+  const [form, setForm] = useState<FormData>({
+    name: "",
+    email: "",
+    attending: "",
+    guests: "1",
+    dietary: "",
+    message: "",
+  });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const set = (e: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>) =>
-    setForm(p=>({...p,[e.target.name]:e.target.value}));
-
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); setLoading(true);
-    try {
-      await fetch("/api/rsvp",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(form)});
-      setSubmitted(true);
-    } catch {}
+    e.preventDefault();
+    setLoading(true);
+    // Simulate API call
+    await new Promise((r) => setTimeout(r, 1200));
     setLoading(false);
+    setSubmitted(true);
   };
 
-  const inp: React.CSSProperties = { width:"100%", backgroundColor:"transparent", borderBottom:"1px solid var(--border)", outline:"none", padding:"0.75rem 0", color:"var(--primary)", fontFamily:"'Jost',sans-serif", fontSize:"0.85rem" };
-  const lbl: React.CSSProperties = { fontFamily:"'Jost',sans-serif", fontSize:"0.6rem", letterSpacing:"0.2em", textTransform:"uppercase", color:"var(--text-muted)", display:"block", marginBottom:"0.5rem" };
-
-  if (submitted) return (
-    <section id="rsvp" style={{ padding:"6rem 1.5rem", backgroundColor:"var(--bg-alt)", textAlign:"center" }}>
-      <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"3rem", fontStyle:"italic", color:"var(--primary)", marginBottom:"1rem" }}>Thank You! 🌸</p>
-      <p style={{ fontFamily:"'Jost',sans-serif", color:"var(--text)", fontSize:"0.85rem" }}>Your RSVP has been received. We can't wait to celebrate with you!</p>
-    </section>
-  );
+  const inputClass =
+    "w-full bg-transparent border-b border-dark-green/20 focus:border-warm-gold outline-none py-3 text-dark-green placeholder:text-dark-green/30 transition-colors duration-300 text-sm";
 
   return (
-    <section id="rsvp" style={{ padding:"5rem 1.5rem", backgroundColor:"var(--bg-alt)" }}>
-      <div style={{ maxWidth:"42rem", margin:"0 auto" }}>
-        <div className="section-reveal" style={{ textAlign:"center", marginBottom:"3rem" }}>
-          <p style={{ fontFamily:"'Jost',sans-serif", fontSize:"0.65rem", letterSpacing:"0.4em", textTransform:"uppercase", color:"var(--accent)", marginBottom:"0.75rem" }}></p>
-          <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.5rem,6vw,4rem)", fontWeight:300, fontStyle:"italic", color:"var(--primary)" }}>RSVP</h2>
+    <section
+      id="rsvp"
+      className="py-28 px-6"
+      style={{ background: "linear-gradient(160deg, #F8F3EC 0%, #EDE4D6 100%)" }}
+    >
+      <div className="max-w-2xl mx-auto">
+        <div className="text-center mb-16 section-reveal">
+          <p
+            className="text-xs tracking-[0.4em] uppercase text-warm-gold mb-4"
+            style={{ fontFamily: "'Jost', sans-serif" }}
+          >
+            Kindly Reply By August 1, 2025
+          </p>
+          <h2
+            className="text-6xl md:text-7xl font-light italic text-dark-green"
+            style={{ fontFamily: "'Cormorant Garamond', serif" }}
+          >
+            RSVP
+          </h2>
         </div>
-        <form onSubmit={handleSubmit} className="section-reveal" style={{ display:"flex", flexDirection:"column", gap:"2rem" }}>
-          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"1.5rem" }}>
-            <div><label style={lbl}>Full Name *</label><input name="name" type="text" required value={form.name} onChange={set} placeholder="Your full name" style={inp} /></div>
-            <div><label style={lbl}>Email *</label><input name="email" type="email" required value={form.email} onChange={set} placeholder="your@email.com" style={inp} /></div>
+
+        {submitted ? (
+          <div className="text-center py-16 section-reveal visible">
+            <div className="text-6xl mb-6 text-warm-gold">✦</div>
+            <h3
+              className="text-4xl font-light italic text-dark-green mb-4"
+              style={{ fontFamily: "'Cormorant Garamond', serif" }}
+            >
+              Thank You, {form.name.split(" ")[0]}!
+            </h3>
+            <p
+              className="text-dark-green/60 text-sm leading-relaxed"
+              style={{ fontFamily: "'Jost', sans-serif" }}
+            >
+              {form.attending === "yes"
+                ? "We're so excited to celebrate with you! We'll be in touch with more details soon."
+                : "We'll miss you dearly. Thank you for letting us know."}
+            </p>
           </div>
-          <div>
-            <label style={lbl}>Will you attend? *</label>
-            <div style={{ display:"flex", gap:"1.5rem", marginTop:"0.5rem" }}>
-              {[{v:"yes",l:"Joyfully Accepts"},{v:"no",l:"Regretfully Declines"}].map(({v,l})=>(
-                <label key={v} style={{ display:"flex", alignItems:"center", gap:"0.5rem", cursor:"pointer", fontFamily:"'Jost',sans-serif", fontSize:"0.82rem", color:form.attending===v?"var(--accent)":"var(--text)" }}>
-                  <input type="radio" name="attending" value={v} required checked={form.attending===v} onChange={set} style={{ accentColor:"var(--accent)" }} />{l}
+        ) : (
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-10 section-reveal"
+            style={{ fontFamily: "'Jost', sans-serif" }}
+          >
+            {/* Name & Email */}
+            <div className="grid md:grid-cols-2 gap-10">
+              <div>
+                <label className="text-xs tracking-widest uppercase text-dark-green/50 block mb-2">
+                  Full Name *
                 </label>
-              ))}
+                <input
+                  type="text"
+                  required
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  placeholder="Your full name"
+                  className={inputClass}
+                />
+              </div>
+              <div>
+                <label className="text-xs tracking-widest uppercase text-dark-green/50 block mb-2">
+                  Email *
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  placeholder="your@email.com"
+                  className={inputClass}
+                />
+              </div>
             </div>
-          </div>
-          {form.attending==="yes" && <>
+
+            {/* Attending */}
             <div>
-              <label style={lbl}>Number of Guests</label>
-              <select name="guests" value={form.guests} onChange={set} style={{ ...inp, cursor:"pointer" }}>
-                {["1","2","3","4","5"].map(n=><option key={n} value={n}>{n} guest{n!=="1"?"s":""}</option>)}
-              </select>
+              <label className="text-xs tracking-widest uppercase text-dark-green/50 block mb-4">
+                Will You Attend? *
+              </label>
+              <div className="flex gap-4">
+                {(["yes", "no"] as AttendingStatus[]).map((val) => (
+                  <button
+                    key={val}
+                    type="button"
+                    onClick={() => setForm({ ...form, attending: val })}
+                    className={`flex-1 py-3 border text-sm tracking-widest uppercase transition-all duration-300 ${
+                      form.attending === val
+                        ? "bg-dark-green text-cream border-dark-green"
+                        : "border-dark-green/20 text-dark-green/60 hover:border-warm-gold hover:text-warm-gold"
+                    }`}
+                  >
+                    {val === "yes" ? "Joyfully Accepts" : "Regretfully Declines"}
+                  </button>
+                ))}
+              </div>
             </div>
-            <div><label style={lbl}>Dietary Requirements</label><input name="dietary" type="text" value={form.dietary} onChange={set} placeholder="Vegetarian, allergies, etc." style={inp} /></div>
-          </>}
-          <div><label style={lbl}>Message for the Couple</label><textarea name="message" rows={3} value={form.message} onChange={set} placeholder="Share your wishes..." style={{ ...inp, resize:"none" }} /></div>
-          <button type="submit" disabled={loading} style={{ alignSelf:"flex-start", padding:"0.85rem 3.5rem", backgroundColor:"var(--accent)", color:"white", fontFamily:"'Jost',sans-serif", fontSize:"0.65rem", letterSpacing:"0.3em", textTransform:"uppercase", border:"none", cursor:loading?"not-allowed":"pointer", opacity:loading?0.7:1 }}>
-            {loading?"Sending...":"Send RSVP"}
-          </button>
-        </form>
+
+            {/* Guests - only if attending */}
+            {form.attending === "yes" && (
+              <div className="grid md:grid-cols-2 gap-10">
+                <div>
+                  <label className="text-xs tracking-widest uppercase text-dark-green/50 block mb-2">
+                    Number of Guests
+                  </label>
+                  <select
+                    value={form.guests}
+                    onChange={(e) => setForm({ ...form, guests: e.target.value })}
+                    className={inputClass + " cursor-pointer"}
+                  >
+                    {["1", "2", "3", "4"].map((n) => (
+                      <option key={n} value={n} className="bg-cream text-dark-green">
+                        {n} {n === "1" ? "Guest" : "Guests"}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="text-xs tracking-widest uppercase text-dark-green/50 block mb-2">
+                    Dietary Restrictions
+                  </label>
+                  <input
+                    type="text"
+                    value={form.dietary}
+                    onChange={(e) => setForm({ ...form, dietary: e.target.value })}
+                    placeholder="Vegetarian, gluten-free, etc."
+                    className={inputClass}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Message */}
+            <div>
+              <label className="text-xs tracking-widest uppercase text-dark-green/50 block mb-2">
+                A Note for the Couple
+              </label>
+              <textarea
+                rows={3}
+                value={form.message}
+                onChange={(e) => setForm({ ...form, message: e.target.value })}
+                placeholder="Share your wishes..."
+                className={inputClass + " resize-none"}
+              />
+            </div>
+
+            {/* Submit */}
+            <div className="text-center pt-4">
+              <button
+                type="submit"
+                disabled={!form.attending || loading}
+                className="px-16 py-4 bg-dark-green text-cream text-xs tracking-[0.3em] uppercase hover:bg-warm-gold transition-all duration-500 disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                {loading ? "Sending..." : "Send RSVP"}
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </section>
   );
