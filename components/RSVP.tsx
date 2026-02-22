@@ -44,25 +44,27 @@ export default function RSVP() {
     setLoading(false);
   };
 
+  // Updated classes using the new primary and accent colors
   const inputClass =
-    "w-full bg-transparent border-b border-dark-green/20 focus:border-warm-gold outline-none py-3 text-dark-green placeholder:text-dark-green/30 transition-colors duration-300 text-sm";
+    "w-full bg-transparent border-b border-[#C4738A]/30 focus:border-[#7D2E46] outline-none py-3 text-[#7D2E46] placeholder:text-[#7D2E46]/30 transition-colors duration-300 text-sm";
 
   return (
     <section
       id="rsvp"
       className="py-28 px-6"
-      style={{ background: "linear-gradient(160deg, #F8F3EC 0%, #EDE4D6 100%)" }}
+      // Gradient updated to match --bg (#FDF0F3) and --bg-alt (#FAE4EA)
+      style={{ background: "linear-gradient(160deg, #FDF0F3 0%, #FAE4EA 100%)" }}
     >
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-16 section-reveal">
           <p
-            className="text-xs tracking-[0.4em] uppercase text-warm-gold mb-4"
+            className="text-xs tracking-[0.4em] uppercase text-[#C4738A] mb-4"
             style={{ fontFamily: "'Jost', sans-serif" }}
           >
-            Kindly Reply By August 1, 2025
+            Please Respond
           </p>
           <h2
-            className="text-6xl md:text-7xl font-light italic text-dark-green"
+            className="text-6xl md:text-7xl font-light italic text-[#7D2E46]"
             style={{ fontFamily: "'Cormorant Garamond', serif" }}
           >
             RSVP
@@ -71,15 +73,15 @@ export default function RSVP() {
 
         {submitted ? (
           <div className="text-center py-16 section-reveal visible">
-            <div className="text-6xl mb-6 text-warm-gold">✦</div>
+            <div className="text-6xl mb-6 text-[#C4738A]">✦</div>
             <h3
-              className="text-4xl font-light italic text-dark-green mb-4"
+              className="text-4xl font-light italic text-[#7D2E46] mb-4"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
               Thank You, {form.name.split(" ")[0]}!
             </h3>
             <p
-              className="text-dark-green/60 text-sm leading-relaxed"
+              className="text-[#7D2E46]/60 text-sm leading-relaxed"
               style={{ fontFamily: "'Jost', sans-serif" }}
             >
               {form.attending === "yes"
@@ -96,7 +98,7 @@ export default function RSVP() {
             {/* Name & Email */}
             <div className="grid md:grid-cols-2 gap-10">
               <div>
-                <label className="text-xs tracking-widest uppercase text-dark-green/50 block mb-2">
+                <label className="text-xs tracking-widest uppercase text-[#7D2E46]/50 block mb-2">
                   Full Name *
                 </label>
                 <input
@@ -109,7 +111,7 @@ export default function RSVP() {
                 />
               </div>
               <div>
-                <label className="text-xs tracking-widest uppercase text-dark-green/50 block mb-2">
+                <label className="text-xs tracking-widest uppercase text-[#7D2E46]/50 block mb-2">
                   Email *
                 </label>
                 <input
@@ -125,7 +127,7 @@ export default function RSVP() {
 
             {/* Attending */}
             <div>
-              <label className="text-xs tracking-widest uppercase text-dark-green/50 block mb-4">
+              <label className="text-xs tracking-widest uppercase text-[#7D2E46]/50 block mb-4">
                 Will You Attend? *
               </label>
               <div className="flex gap-4">
@@ -136,8 +138,8 @@ export default function RSVP() {
                     onClick={() => setForm({ ...form, attending: val })}
                     className={`flex-1 py-3 border text-sm tracking-widest uppercase transition-all duration-300 ${
                       form.attending === val
-                        ? "bg-dark-green text-cream border-dark-green"
-                        : "border-dark-green/20 text-dark-green/60 hover:border-warm-gold hover:text-warm-gold"
+                        ? "bg-[#7D2E46] text-[#FDF0F3] border-[#7D2E46]"
+                        : "border-[#7D2E46]/20 text-[#7D2E46]/60 hover:border-[#C4738A] hover:text-[#C4738A]"
                     }`}
                   >
                     {val === "yes" ? "Joyfully Accepts" : "Regretfully Declines"}
@@ -150,7 +152,7 @@ export default function RSVP() {
             {form.attending === "yes" && (
               <div className="grid md:grid-cols-2 gap-10">
                 <div>
-                  <label className="text-xs tracking-widest uppercase text-dark-green/50 block mb-2">
+                  <label className="text-xs tracking-widest uppercase text-[#7D2E46]/50 block mb-2">
                     Number of Guests
                   </label>
                   <select
@@ -159,14 +161,14 @@ export default function RSVP() {
                     className={inputClass + " cursor-pointer"}
                   >
                     {["1", "2", "3", "4"].map((n) => (
-                      <option key={n} value={n} className="bg-cream text-dark-green">
+                      <option key={n} value={n} className="bg-[#FDF0F3] text-[#7D2E46]">
                         {n} {n === "1" ? "Guest" : "Guests"}
                       </option>
                     ))}
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs tracking-widest uppercase text-dark-green/50 block mb-2">
+                  <label className="text-xs tracking-widest uppercase text-[#7D2E46]/50 block mb-2">
                     Dietary Restrictions
                   </label>
                   <input
@@ -182,7 +184,7 @@ export default function RSVP() {
 
             {/* Message */}
             <div>
-              <label className="text-xs tracking-widest uppercase text-dark-green/50 block mb-2">
+              <label className="text-xs tracking-widest uppercase text-[#7D2E46]/50 block mb-2">
                 A Note for the Couple
               </label>
               <textarea
@@ -204,7 +206,7 @@ export default function RSVP() {
               <button
                 type="submit"
                 disabled={!form.attending || loading}
-                className="px-16 py-4 bg-dark-green text-cream text-xs tracking-[0.3em] uppercase hover:bg-warm-gold transition-all duration-500 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="px-16 py-4 bg-[#7D2E46] text-[#FDF0F3] text-xs tracking-[0.3em] uppercase hover:bg-[#C4738A] transition-all duration-500 disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 {loading ? "Sending..." : "Send RSVP"}
               </button>
