@@ -24,14 +24,24 @@ export default function RSVP() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate API call
-    await new Promise((r) => setTimeout(r, 1200));
+    setError("");
+    try {
+      const res = await fetch("/api/rsvp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error("Failed to submit");
+      setSubmitted(true);
+    } catch {
+      setError("Something went wrong. Please try again.");
+    }
     setLoading(false);
-    setSubmitted(true);
   };
 
   const inputClass =
@@ -183,6 +193,11 @@ export default function RSVP() {
                 className={inputClass + " resize-none"}
               />
             </div>
+
+            {/* Error message */}
+            {error && (
+              <p className="text-center text-sm text-red-500">{error}</p>
+            )}
 
             {/* Submit */}
             <div className="text-center pt-4">
