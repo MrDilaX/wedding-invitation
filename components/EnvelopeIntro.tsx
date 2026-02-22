@@ -1,111 +1,153 @@
 "use client";
-import { useState, useEffect } from "react";
+
+import { useState } from "react";
 
 interface Props {
   onOpen: () => void;
 }
 
 export default function EnvelopeIntro({ onOpen }: Props) {
-  const [phase, setPhase] = useState<"idle" | "opening" | "zoom">("idle");
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const [opened, setOpened] = useState(false);
+  const [done, setDone] = useState(false);
 
   const handleOpen = () => {
-    if (phase !== "idle") return;
-    setPhase("opening");
-
-    // Sequence: 1. Flap opens -> 2. Card slides & Zoom begins -> 3. Callback
-    setTimeout(() => setPhase("zoom"), 800);
-    setTimeout(() => onOpen(), 2500);
+    if (opened) return;
+    setOpened(true);
+    setTimeout(() => {
+      setDone(true);
+      onOpen();
+    }, 1800);
   };
 
-  if (!mounted) return null;
-
-  const isOpening = phase !== "idle";
-  const isZooming = phase === "zoom";
+  if (done) return null;
 
   return (
-    <div 
+    <div
+      style={{
+        position: "fixed", inset: 0, zIndex: 100,
+        backgroundColor: "#1C2B1E",
+        display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+        animation: opened ? "fadeOut 0.5s ease 1.6s forwards" : "none",
+        cursor: opened ? "default" : "pointer",
+      }}
       onClick={handleOpen}
-      className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#1a1a1a] transition-all duration-[1500ms] ease-in-out ${
-        isZooming ? "scale-[5] opacity-0" : "scale-100 opacity-100"
-      }`}
-      style={{ cursor: phase === "idle" ? "pointer" : "default" }}
     >
-      {/* 3D Envelope Container */}
-      <div className="relative w-[min(500px,85vw)] h-[min(330px,55vw)]" style={{ perspective: "1500px" }}>
-        
-        {/* 1. THE RECTANGLE BASE (The back of the envelope) */}
-        <div className="absolute inset-0 bg-[#d4c7b0] rounded-sm shadow-2xl" />
+      {/* Stars background */}
+      <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none" }}>
+        {Array.from({ length: 30 }).map((_, i) => (
+          <div key={i} style={{
+            position: "absolute",
+            width: `${1 + Math.random() * 2}px`,
+            height: `${1 + Math.random() * 2}px`,
+            borderRadius: "50%",
+            backgroundColor: "#C9A84C",
+            opacity: 0.2 + Math.random() * 0.5,
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+          }} />
+        ))}
+      </div>
 
-        {/* 2. THE CARD (Invitation) - Slides out from the top */}
-        <div 
-          className="absolute inset-x-[5%] top-[5%] h-[90%] bg-white shadow-lg flex flex-col items-center justify-center transition-transform duration-1000 ease-in-out"
-          style={{ 
+      {/* Envelope */}
+      <div style={{ position: "relative", width: "280px", height: "200px", perspective: "1000px" }}>
+        {/* Envelope body */}
+        <div style={{
+          position: "absolute", inset: 0,
+          backgroundColor: "#F8F3EC",
+          borderRadius: "4px",
+          boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
+          overflow: "hidden",
+        }}>
+          {/* Bottom triangle fold lines */}
+          <div style={{
+            position: "absolute", bottom: 0, left: 0, right: 0, height: "100%",
+            background: "linear-gradient(135deg, #EDE4D6 50%, transparent 50%)",
+          }} />
+          <div style={{
+            position: "absolute", bottom: 0, left: 0, right: 0, height: "100%",
+            background: "linear-gradient(225deg, #EDE4D6 50%, transparent 50%)",
+          }} />
+          {/* Center seal */}
+          <div style={{
+            position: "absolute", top: "50%", left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "40px", height: "40px",
+            borderRadius: "50%",
+            backgroundColor: "#C9A84C",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: "14px", color: "#F8F3EC",
+            fontFamily: "'Cormorant Garamond', serif",
+            fontStyle: "italic",
             zIndex: 2,
-            transform: isOpening ? "translateY(-60%)" : "translateY(0)",
-            transitionDelay: isOpening ? "0.4s" : "0s" 
-          }}
-        >
-          <div className="w-[90%] h-[90%] border border-[#d4c7b0] flex flex-col items-center justify-center p-4">
-             <h2 className="font-serif italic text-xl text-[#8b7355]">Wedding</h2>
-             <p className="text-[10px] tracking-[0.2em] mt-2 text-gray-400">CHANAKA & GANGUNI</p>
+          }}>
+            A&L
           </div>
         </div>
 
-        {/* 3. THE TOP FLAP (Fixed Hinge) */}
-        <div 
-          className="absolute top-0 left-0 w-full h-1/2 transition-transform duration-700 ease-in-out"
-          style={{ 
-            transformOrigin: "top", // Locks the "hinge" to the top edge
-            transform: isOpening ? "rotateX(-180deg)" : "rotateX(0deg)",
-            zIndex: isOpening ? 1 : 10, // Moves behind the card when open
-            transformStyle: "preserve-3d"
-          }}
-        >
-          {/* Front (Visible when closed) */}
-          <div 
-            className="absolute inset-0 bg-[#e8d8c0]" 
-            style={{ 
-              clipPath: "polygon(0 0, 100% 0, 50% 100%)",
-              backfaceVisibility: "hidden" 
-            }} 
-          >
-            {/* Wax Seal - Positioned relative to the flap tip */}
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-12 h-12 bg-[#8b1c1c] rounded-full shadow-lg border-2 border-[#a62626] flex items-center justify-center">
-               <span className="text-[10px] text-white font-serif italic">C&G</span>
-            </div>
-          </div>
-          
-          {/* Back (The inside of the flap when flipped up) */}
-          <div 
-            className="absolute inset-0 bg-[#c4b59d]" 
-            style={{ 
-              clipPath: "polygon(0 0, 100% 0, 50% 100%)",
-              transform: "rotateX(180deg)", 
-              backfaceVisibility: "hidden" 
-            }} 
-          />
+        {/* Envelope flap */}
+        <div style={{
+          position: "absolute", top: 0, left: 0, right: 0,
+          height: "50%",
+          transformOrigin: "top center",
+          transformStyle: "preserve-3d",
+          animation: opened ? "envelopeOpen 0.8s ease 0.2s forwards" : "none",
+          zIndex: 3,
+        }}>
+          <div style={{
+            position: "absolute", inset: 0,
+            background: "linear-gradient(180deg, #EDE4D6 0%, #F8F3EC 100%)",
+            clipPath: "polygon(0 0, 50% 100%, 100% 0)",
+            borderRadius: "4px 4px 0 0",
+          }} />
         </div>
 
-        {/* 4. THE FRONT POCKET (The triangle sides/bottom) */}
-        {/* Left Side */}
-        <div className="absolute inset-0 z-[4]" style={{ clipPath: "polygon(0 0, 0 100%, 50% 50%)", background: "#e0d1b8" }} />
-        {/* Right Side */}
-        <div className="absolute inset-0 z-[4]" style={{ clipPath: "polygon(100% 0, 100% 100%, 50% 50%)", background: "#e0d1b8" }} />
-        {/* Bottom Face */}
-        <div className="absolute inset-0 z-[5]" style={{ clipPath: "polygon(0 100%, 100% 100%, 50% 50%)", background: "#d4c5ab" }} />
-
-        {/* Floating Instruction */}
-        {!isOpening && (
-          <div className="absolute -bottom-16 w-full text-center animate-bounce">
-            <span className="text-[#f5eddb]/40 font-serif italic text-sm tracking-widest">TAP ANYWHERE</span>
+        {/* Letter rising */}
+        {opened && (
+          <div style={{
+            position: "absolute", left: "10%", right: "10%",
+            bottom: "10px", height: "80%",
+            backgroundColor: "#F8F3EC",
+            borderRadius: "2px",
+            animation: "letterRise 0.8s ease 0.8s forwards",
+            opacity: 0,
+            zIndex: 1,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            flexDirection: "column", gap: "4px",
+            boxShadow: "0 -4px 20px rgba(0,0,0,0.15)",
+          }}>
+            <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1rem", fontStyle: "italic", color: "#1C2B1E" }}>
+              Adam & Lorah
+            </span>
+            <div style={{ width: "40px", height: "1px", backgroundColor: "#C9A84C" }} />
+            <span style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.55rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(28,43,30,0.5)" }}>
+              Wedding Invitation
+            </span>
           </div>
         )}
       </div>
+
+      {/* Click prompt */}
+      {!opened && (
+        <div style={{ marginTop: "3rem", textAlign: "center" }}>
+          <p style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: "1.2rem", fontStyle: "italic",
+            color: "rgba(248,243,236,0.7)",
+            marginBottom: "0.5rem",
+          }}>
+            You are cordially invited
+          </p>
+          <p style={{
+            fontFamily: "'Jost', sans-serif",
+            fontSize: "0.65rem", letterSpacing: "0.3em",
+            textTransform: "uppercase",
+            color: "#C9A84C",
+            animation: "pulse 2s ease infinite",
+          }}>
+            Tap to open
+          </p>
+        </div>
+      )}
     </div>
   );
 }
