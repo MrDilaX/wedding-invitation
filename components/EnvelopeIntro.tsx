@@ -6,116 +6,66 @@ interface Props {
 }
 
 export default function EnvelopeIntro({ onOpen }: Props) {
-  const [phase, setPhase] = useState<"idle" | "opening" | "done">("idle");
-  const [mounted, setMounted] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isRendered, setIsRendered] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    setIsRendered(true);
   }, []);
 
-  const playSound = () => {
-    try {
-      const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const r = (start: number, dur: number, gain: number) => {
-        const b = ctx.createBuffer(1, ctx.sampleRate * dur, ctx.sampleRate);
-        const d = b.getChannelData(0);
-        for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 0.6);
-        const s = ctx.createBufferSource();
-        s.buffer = b;
-        const g = ctx.createGain();
-        g.gain.setValueAtTime(gain, start);
-        g.gain.exponentialRampToValueAtTime(0.001, start + dur);
-        const f = ctx.createBiquadFilter();
-        f.type = "bandpass";
-        f.frequency.value = 3500;
-        s.connect(f);
-        f.connect(g);
-        g.connect(ctx.destination);
-        s.start(start);
-      };
-      const t = ctx.currentTime;
-      r(t, 0.25, 0.4);
-      r(t + 0.1, 0.2, 0.2);
-    } catch (e) {}
-  };
-
   const handleOpen = () => {
-    if (phase !== "idle") return;
-    playSound();
-    setPhase("opening");
+    if (isOpen) return;
+    setIsOpen(true);
     
-    // Duration of the flap animation + a small delay before transition
+    // Step 1: Flap opens (0.6s)
+    // Step 2: Fade out to the actual invitation
     setTimeout(() => {
-      setPhase("done");
       onOpen();
     }, 1200);
   };
 
-  if (phase === "done") return null;
+  if (!isRendered) return null;
 
   return (
     <div 
-      className={`fixed inset-0 z-[100] flex items-center justify-center transition-colors duration-1000 ${
-        phase === "opening" ? "bg-opacity-0" : "bg-[#1a1a1a]"
-      }`}
       onClick={handleOpen}
-      style={{ cursor: phase === "idle" ? "pointer" : "default" }}
+      className="fixed inset-0 z-[100] bg-[#1a1a1a] flex items-center justify-center cursor-pointer overflow-hidden transition-opacity duration-500"
+      style={{ opacity: isOpen ? 0.9 : 1 }}
     >
-      {/* Container */}
-      <div 
-        className={`relative w-[min(600px,90vw)] h-[min(400px,60vw)] transition-all duration-1000 ease-out ${
-          mounted ? "opacity-100 scale-100" : "opacity-0 scale-95"
-        }`}
-        style={{ perspective: "1500px" }}
-      >
+      {/* Container with Perspective for 3D Flap */}
+      <div className="relative w-[min(500px,85vw)] h-[min(350px,60vw)] transition-transform duration-700"
+           style={{ perspective: "1000px" }}>
         
-        {/* ENVELOPE BACK & SIDES */}
-        <div className="absolute inset-0 bg-[#f2e8d2] shadow-2xl rounded-sm">
-          {/* Left Wing */}
-          <div 
-            className="absolute inset-0 z-[3]" 
-            style={{ clipPath: "polygon(0 0, 0 100%, 50% 50%)", background: "#e8d8c0" }} 
-          />
-          {/* Right Wing */}
-          <div 
-            className="absolute inset-0 z-[3]" 
-            style={{ clipPath: "polygon(100% 0, 100% 100%, 50% 50%)", background: "#e8d8c0" }} 
-          />
-          {/* Bottom Wing */}
-          <div 
-            className="absolute inset-0 z-[4]" 
-            style={{ clipPath: "polygon(0 100%, 100% 100%, 50% 50%)", background: "#decba4" }} 
-          />
-        </div>
+        {/* 1. BACK BOX (The "inside" of the envelope) */}
+        <div className="absolute inset-0 bg-[#d4c7b0] rounded-sm shadow-2xl" />
 
-        {/* THE FLAP */}
+        {/* 2. THE TOP FLAP (The Triangle that opens) */}
         <div 
-          className={`absolute top-0 left-0 w-full h-1/2 z-[5] transition-transform duration-700 ease-in-out`}
+          className="absolute top-0 left-0 w-full h-1/2 z-[10] transition-transform duration-700 ease-in-out"
           style={{ 
-            transformOrigin: "top",
-            transform: phase === "opening" ? "rotateX(180deg)" : "rotateX(0deg)",
+            transformOrigin: "top", 
+            transform: isOpen ? "rotateX(180deg)" : "rotateX(0deg)",
             transformStyle: "preserve-3d"
           }}
         >
-          {/* Outer Flap (Visible when closed) */}
+          {/* Front of Flap (Face Down) */}
           <div 
-            className="absolute inset-0 bg-[#eee2cc]" 
+            className="absolute inset-0 bg-[#e8d8c0]" 
             style={{ 
               clipPath: "polygon(0 0, 100% 0, 50% 100%)",
-              backfaceVisibility: "hidden"
+              backfaceVisibility: "hidden",
+              zIndex: 2
             }} 
           >
             {/* Wax Seal */}
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center justify-center">
-               <div className="w-16 h-16 rounded-full bg-[#8b1c1c] shadow-lg border-2 border-[#a62626] flex items-center justify-center">
-                  <span className="text-[#f5eddb]/80 italic font-serif text-sm">C.G</span>
-               </div>
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-12 h-12 bg-[#8b1c1c] rounded-full shadow-md flex items-center justify-center border-2 border-[#6b1212]">
+                <span className="text-[10px] text-[#f5eddb] font-serif italic">C&G</span>
             </div>
           </div>
 
-          {/* Inner Flap (Visible when opened) */}
+          {/* Back of Flap (Visible when open) */}
           <div 
-            className="absolute inset-0 bg-[#d4bfa0]" 
+            className="absolute inset-0 bg-[#c4b59d]" 
             style={{ 
               clipPath: "polygon(0 0, 100% 0, 50% 100%)",
               transform: "rotateX(180deg)",
@@ -124,10 +74,27 @@ export default function EnvelopeIntro({ onOpen }: Props) {
           />
         </div>
 
-        {/* INSTRUCTION TEXT */}
-        {phase === "idle" && (
-          <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 text-center animate-pulse">
-            <p className="text-[#f5eddb]/60 font-serif italic tracking-widest">Click to Open</p>
+        {/* 3. SIDE & BOTTOM TRIANGLES (The "Front" of the envelope) */}
+        {/* Left Side */}
+        <div 
+          className="absolute inset-0 z-[5]" 
+          style={{ clipPath: "polygon(0 0, 0 100%, 50% 50%)", background: "#e0d1b8" }} 
+        />
+        {/* Right Side */}
+        <div 
+          className="absolute inset-0 z-[5]" 
+          style={{ clipPath: "polygon(100% 0, 100% 100%, 50% 50%)", background: "#e0d1b8" }} 
+        />
+        {/* Bottom Face */}
+        <div 
+          className="absolute inset-0 z-[6]" 
+          style={{ clipPath: "polygon(0 100%, 100% 100%, 50% 50%)", background: "#d4c5ab" }} 
+        />
+
+        {/* 4. TAP INDICATOR */}
+        {!isOpen && (
+          <div className="absolute -bottom-16 left-0 w-full text-center animate-bounce">
+            <span className="text-[#f5eddb]/40 font-serif italic tracking-widest text-sm">TAP ANYWHERE</span>
           </div>
         )}
       </div>
