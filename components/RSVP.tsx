@@ -35,7 +35,7 @@ export default function RSVP() {
     <section id="rsvp" style={{ padding:"5rem 1.5rem", backgroundColor:"var(--bg-alt)" }}>
       <div style={{ maxWidth:"42rem", margin:"0 auto" }}>
         <div className="section-reveal" style={{ textAlign:"center", marginBottom:"3rem" }}>
-          <p style={{ fontFamily:"'Jost',sans-serif", fontSize:"0.65rem", letterSpacing:"0.4em", textTransform:"uppercase", color:"var(--accent)", marginBottom:"0.75rem" }}>Kindly Reply By July 1, 2026</p>
+          <p style={{ fontFamily:"'Jost',sans-serif", fontSize:"0.65rem", letterSpacing:"0.4em", textTransform:"uppercase", color:"var(--accent)", marginBottom:"0.75rem" }}></p>
           <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.5rem,6vw,4rem)", fontWeight:300, fontStyle:"italic", color:"var(--primary)" }}>RSVP</h2>
         </div>
         <form onSubmit={handleSubmit} className="section-reveal" style={{ display:"flex", flexDirection:"column", gap:"2rem" }}>

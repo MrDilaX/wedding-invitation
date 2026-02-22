@@ -30,7 +30,7 @@ export default function EnvelopeIntro({ onOpen }: Props) {
         <div style={{ position:"absolute", top:"50%", left:"50%", transform:"translate(-50%,-5%)", zIndex:6, opacity:isOpening?0:1, transition:"opacity 0.25s ease", pointerEvents:"none" }}>
           <div style={{ width:"74px", height:"74px", borderRadius:"50%", background:"radial-gradient(circle at 35% 30%,#C03535 0%,#8B1C1C 55%,#651010 100%)", border:"2px solid rgba(255,200,160,0.2)", display:"flex", alignItems:"center", justifyContent:"center", boxShadow:"0 6px 20px rgba(0,0,0,0.5)", position:"relative" }}>
             <div style={{ position:"absolute", inset:"7px", borderRadius:"50%", border:"1px solid rgba(255,200,160,0.18)" }} />
-            <span style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:"0.9rem", fontStyle:"italic", color:"rgba(255,235,210,0.92)", letterSpacing:"0.1em", position:"relative", zIndex:1 }}>A·L</span>
+            <span style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:"0.9rem", fontStyle:"italic", color:"rgba(255,235,210,0.92)", letterSpacing:"0.1em", position:"relative", zIndex:1 }}>C.G</span>
           </div>
         </div>
         {/* Flap — rotates from bottom edge so triangle folds back correctly */}
