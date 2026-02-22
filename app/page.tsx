@@ -31,7 +31,7 @@ export default function Home() {
       <Nav />
       <Hero />
       <Countdown />
-      <OurStory />
+      {/* <OurStory /> */}
       <EventDetails />
       <GoogleMapSection />
       <Gallery />
