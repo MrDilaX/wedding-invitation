@@ -50,4 +50,4 @@ Open `src/app/page.tsx` and look for the feature flags to toggle the following:
 ### Local Setup
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/your-username/wedding-site.git](https://github.com/your-username/wedding-site.git)
+   git clone https://github.com/MrDilaX/wedding-invitation.git
